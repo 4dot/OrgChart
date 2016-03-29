@@ -7,4 +7,3 @@
 # ScreenShot
 
 ![ScreenShot](https://raw.github.com/4dot/OrgChart/master/docs/screenshot.jpg)
-![ScreenShot](https://raw.github.com/4dot/OrgChart/master/docs/stackview_layout.jpg)
