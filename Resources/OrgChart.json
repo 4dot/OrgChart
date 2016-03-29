@@ -1,0 +1,280 @@
+{
+	"udid": "0001",
+	"name": "Charlie Park",
+	"company": "4Dot Inc.,",
+	"position": "CEO",
+	"recruter": "",
+	"children":
+	[
+         {
+             "udid": "0011",
+             "name": "Youngjin Jang",
+             "company": "4Dot Inc.,",
+             "position": "Vice President",
+             "recruter": "",
+             "children":
+             [
+                  {
+                      "udid": "111",
+                      "name": "Simon Kim",
+                      "company": "4Dot Inc.,",
+                      "position": "Technical Support",
+                      "recruter": "",
+                      "children":
+                      [
+                           {
+                               "udid": "1111",
+                               "name": "Peter Kim",
+                               "company": "4Dot Inc.,",
+                               "position": "Technical Support",
+                               "recruter": "",
+                               "children":
+                               [
+                                    {
+                                        "udid": "11111",
+                                        "name": "Kunae Park",
+                                        "company": "4Dot Inc.,",
+                                        "position": "Technical Support",
+                                        "recruter": "",
+                                        "children":
+                                        [
+                                        ]
+                                    },
+                               ]
+                           },
+                           {
+                               "udid": "2111",
+                               "name": "Ara Cho",
+                               "company": "4Dot Inc.,",
+                               "position": "Technical Support",
+                               "recruter": "",
+                               "children":
+                               [
+                               ]
+                           }
+                      ]
+                  },
+                  {
+                      "udid": "211",
+                      "name": "Jeyeng Fu",
+                      "company": "4Dot Inc.,",
+                      "position": "Technical Support",
+                      "recruter": "",
+                      "children":
+                      [
+                           {
+                               "udid": "1211",
+                               "name": "Albert",
+                               "company": "4Dot Inc.,",
+                               "position": "Technical Support",
+                               "recruter": "",
+                               "children":
+                               [
+                               ]
+                           },
+                           {
+                               "udid": "2211",
+                               "name": "YunHu",
+                               "company": "4Dot Inc.,",
+                               "position": "Technical Support",
+                               "recruter": "",
+                               "children":
+                               [
+                               ]
+                           },
+                           {
+                               "udid": "3211",
+                               "name": "Tommy",
+                               "company": "4Dot Inc.,",
+                               "position": "Technical Support",
+                               "recruter": "",
+                               "children":
+                               [
+                                    {
+                                        "udid": "13211",
+                                        "name": "Karen",
+                                        "company": "4Dot Inc.,",
+                                        "position": "Technical Support",
+                                        "recruter": "",
+                                        "children":
+                                        [
+                                        ]
+                                    },
+                                    {
+                                        "udid": "23211",
+                                        "name": "Susan",
+                                        "company": "4Dot Inc.,",
+                                        "position": "Technical Support",
+                                        "recruter": "",
+                                        "children":
+                                        [
+                                        ]
+                                    },
+                                    {
+                                        "udid": "33211",
+                                        "name": "Sara",
+                                        "company": "4Dot Inc.,",
+                                        "position": "Technical Support",
+                                        "recruter": "",
+                                        "children":
+                                        [
+                                             {
+                                                 "udid": "133211",
+                                                 "name": "Hellen",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             },
+                                             {
+                                                 "udid": "233211",
+                                                 "name": "Kishan",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             },
+                                             {
+                                                 "udid": "333211",
+                                                 "name": "Ajung",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             },
+                                             {
+                                                 "udid": "433211",
+                                                 "name": "Tiffani",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             },
+                                             {
+                                                 "udid": "533211",
+                                                 "name": "Jesica",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             },
+                                             {
+                                                 "udid": "633211",
+                                                 "name": "Hannah",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             },
+                                             {
+                                                 "udid": "733211",
+                                                 "name": "Jully",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             },
+                                             {
+                                                 "udid": "833211",
+                                                 "name": "Janny",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             },
+                                             {
+                                                 "udid": "933211",
+                                                 "name": "Kay",
+                                                 "company": "4Dot Inc.,",
+                                                 "position": "Technical Support",
+                                                 "recruter": "",
+                                                 "children":
+                                                 [
+                                                 ]
+                                             }
+                                        ]
+                                    },
+                                    {
+                                        "udid": "43211",
+                                        "name": "Isbella",
+                                        "company": "4Dot Inc.,",
+                                        "position": "Technical Support",
+                                        "recruter": "",
+                                        "children":
+                                        [
+                                        ]
+                                    }
+                               ]
+                           },
+                           {
+                               "udid": "4211",
+                               "name": "Dorothy",
+                               "company": "4Dot Inc.,",
+                               "position": "Technical Support",
+                               "recruter": "",
+                               "children":
+                               [
+                               ]
+                           },
+                           {
+                               "udid": "5211",
+                               "name": "Michael",
+                               "company": "4Dot Inc.,",
+                               "position": "Technical Support",
+                               "recruter": "",
+                               "children":
+                               [
+                               ]
+                           },
+                           {
+                               "udid": "6211",
+                               "name": "Jaine",
+                               "company": "4Dot Inc.,",
+                               "position": "Technical Support",
+                               "recruter": "",
+                               "children":
+                               [
+                               ]
+                           }
+                      ]
+                  }
+             ]
+         },
+         {
+             "udid": "0021",
+             "name": "Eugene",
+             "company": "4Dot Inc.,",
+             "position": "Vice President",
+             "recruter": "",
+             "children":
+             [
+                  {
+                      "udid": "121",
+                      "name": "Mone",
+                      "company": "4Dot Inc.,",
+                      "position": "Developer",
+                      "recruter": "",
+                      "children":
+                      [
+                      ]
+                  }
+              ]
+         }
+	]
+}

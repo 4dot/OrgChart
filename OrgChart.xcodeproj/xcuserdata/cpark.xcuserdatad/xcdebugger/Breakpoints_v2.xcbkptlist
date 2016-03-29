@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OrgChart/OrgChartView.swift"
+            timestampString = "480884631.57372"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "updateScrollViewSize()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OrgChart.OrgChartView.(updateScrollViewSize in _9DED1C25AFB68FC008E4D2ED290965F8) () -&gt; ()"
+                  moduleName = "OrgChart"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cpark/Documents/OrgChart/OrgChart/OrgChartView.swift"
+                  timestampString = "480884521.95547"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "129"
+                  endingLineNumber = "129"
+                  offsetFromSymbolStart = "1456">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OrgChart.OrgChartView.(updateScrollViewSize in _9DED1C25AFB68FC008E4D2ED290965F8) () -&gt; ()"
+                  moduleName = "OrgChart"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cpark/Documents/OrgChart/OrgChart/OrgChartView.swift"
+                  timestampString = "480884521.955783"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "129"
+                  endingLineNumber = "129"
+                  offsetFromSymbolStart = "2124">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
