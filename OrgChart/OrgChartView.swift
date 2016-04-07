@@ -13,6 +13,9 @@ enum LinkType{
     case LeftBottom
 }
 
+let MAX_SCALE: CGFloat = 2.0
+let MIN_SCALE: CGFloat = 1.0
+
 class OrgChartView: UIView {
     
     // for update all children cells
@@ -27,6 +30,7 @@ class OrgChartView: UIView {
     
     var scrollView: UIScrollView!
     
+    var scaleFactor: CGFloat = 1.0
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -59,8 +63,8 @@ class OrgChartView: UIView {
             stackView.addArrangedSubview(child)
             child.stackIndex = index
         }
-        // Attach stackView
-        self.scrollView.addSubview(stackView)
+        // Do not Attach stackView
+        //self.scrollView.addSubview(stackView)
 
         var targetStack: UIStackView?
         // one more wrapping with vertical stackview when parent have over 2 child
@@ -73,6 +77,7 @@ class OrgChartView: UIView {
                 
                 // remove parent from prev stackview and insert new stackview
                 validParent.myStack.removeArrangedSubview(validParent)
+                validParent.myStack = vertStackView
                 
                 vertStackView.addArrangedSubview(validParent)
                 vertStackView.addArrangedSubview(stackView)
@@ -108,7 +113,7 @@ class OrgChartView: UIView {
         }
     }
     
-    private func updateScrollViewSize() ->Void {
+    func updateScrollViewSize() ->Void {
         // need scrollview update
         var bNeedScroll: Bool = false
         var contentSize = self.frame.size
@@ -118,18 +123,23 @@ class OrgChartView: UIView {
                 bNeedScroll = true
             }
             if (rootStackFrame.height + rootStackFrame.origin.y) > contentSize.height {
-                contentSize.height = rootStackFrame.height + rootStackFrame.origin.y
+                contentSize.height = rootStackFrame.height + 100    // 100 : default height position
                 bNeedScroll = true
             }
+            
+            self.scrollView.scrollEnabled = bNeedScroll
+            self.scrollView.contentSize = contentSize
+            let leftInset = (contentSize.width - self.frame.size.width)/2
+            let topInset = (self.scaleFactor != 1.0) ? abs(rootStackFrame.origin.y) : 0
+            
+            self.scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: -topInset, right: -leftInset)
         }
         
-        self.scrollView.scrollEnabled = bNeedScroll
-        if bNeedScroll == true {
-            self.scrollView.contentSize = contentSize
-            //self.rootCell?.myStack.center = CGPointMake(contentSize.width/2, (self.rootCell?.myStack.center.y)!)
-            //self.scrollView.layoutIfNeeded()
-            //self.scrollView.setNeedsLayout()
-        }
+        
+        
+        //self.rootCell?.myStack.frame.origin.x = 0
+        //self.scrollView.layoutIfNeeded()
+        //self.scrollView.setNeedsLayout()
     }
     
     // MARK: - override func.
@@ -223,14 +233,46 @@ class OrgChartView: UIView {
     
     // MARK: - Pinch Gesgure
     @IBAction func pinchDetected(sender: UIPinchGestureRecognizer) {
-        let scale = sender.scale
-        let velocity = sender.velocity
-        let resultString =
-            "Pinch - scale = \(scale), velocity = \(velocity)"
+        // start
+        if sender.state == UIGestureRecognizerState.Began {
+            sender.scale = self.transform.a
+        }
         
-        print(resultString)
+        var scale: CGFloat = MIN_SCALE
+        
+        if sender.scale < MAX_SCALE {
+            scale = MIN_SCALE - (MIN_SCALE - sender.scale)
+        }
+        else if sender.scale > MAX_SCALE {
+            scale = MAX_SCALE - (MAX_SCALE - sender.scale) / 4
+        }
+        else {
+            scale = sender.scale
+        }
         
         //self.transform = CGAffineTransformMakeScale(scale, scale)
+        self.rootCell?.myStack.transform = CGAffineTransformMakeScale(scale, scale)
+        
+        // end
+        if sender.state == UIGestureRecognizerState.Ended {
+            if sender.scale < MIN_SCALE {
+                scale = MIN_SCALE
+            }
+            if sender.scale > MAX_SCALE {
+                scale = MAX_SCALE
+            }
+        }
+        
+        self.scaleFactor = scale
+        
+        UIView.animateWithDuration(0.25, animations: {
+            // change view size
+            //self.transform = CGAffineTransformMakeScale(scale, scale)
+            self.rootCell?.myStack.transform = CGAffineTransformMakeScale(scale, scale)
+            }, completion: { [unowned self] (finished: Bool) -> Void in
+                // update scrollview size
+                self.updateScrollViewSize()
+            })
     }
     
     @IBAction func panDetected(sender: UIPanGestureRecognizer) {
@@ -253,3 +295,5 @@ class OrgChartView: UIView {
         return stackView
     }
 }
+
+

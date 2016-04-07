@@ -97,13 +97,16 @@ class OrgChartVC: UIViewController, OrgChartCellDelegate {
     // MARK: - OrgChartCellDelegate
     func cellExtend(parent:OrgChartCell, udid: String, bExtend: Bool) {
         if parent.childStack != nil {
-            UIView.animateWithDuration(0.25) {
+            UIView.animateWithDuration(0.25, animations: {
                 parent.childStack?.hidden = !bExtend
                 
-                if let chartView = self.view as? OrgChartView {
-                    chartView.setNeedsDisplay()
-                }
-            }
+                self.view.setNeedsDisplay()
+                }, completion: { [unowned self] (finished: Bool) -> Void in
+                    // change view size
+                    if let chartView = self.view as? OrgChartView {
+                        chartView.updateScrollViewSize()
+                    }
+                })
         }
         else {
             if bExtend == true {
