@@ -231,7 +231,7 @@ class OrgChartView: UIView {
         }
     }
     
-    // MARK: - Pinch Gesgure
+    // MARK: - Pinch Gesture
     @IBAction func pinchDetected(sender: UIPinchGestureRecognizer) {
         // start
         if sender.state == UIGestureRecognizerState.Began {
