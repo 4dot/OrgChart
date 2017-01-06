@@ -8,15 +8,22 @@
 
 import UIKit
 
+// Protocols
+
 protocol OrgChartCellDelegate {
-    func cellExtend(parent:OrgChartCell, udid:String, bExtend:Bool) ->Void
+    func cellExtend(_ parent:OrgChartCell, udid:String, bExtend:Bool) ->Void
 }
 
+
+//
+// OrgChartCell View Class
+//
 class OrgChartCell: UIView {
+    
     // base view
     let baseView:UIView = UIView()
     
-    // Org Data
+    // Organization Data
     var udid: String = String()
     var name: UILabel!
     var position: UILabel!
@@ -37,126 +44,133 @@ class OrgChartCell: UIView {
     var stackIndex: NSInteger!
     
     // check for final children(end of the tree)
-    var childLinkType: LinkType = .TopBottom
+    var childLinkType: LinkType = .topBottom
     
-    // cell indent
-    var cellIndent:CGFloat = 5
+    // cell indent 5 pixels
+    var cellIndent:CGFloat = 10
     
     // delegate
-    var delegate:OrgChartCellDelegate!
+    var delegate:OrgChartCellDelegate?
     
-    // Initialize
-    init(frame: CGRect, udid: String, name: String, position: String?, company: String?, parent:OrgChartCell?) {
+    
+    // MARK: - Initialize
+    
+    init(frame: CGRect, userUdid: String, userName: String, userPosition: String?, userCompany: String?, userParent:OrgChartCell?) {
         super.init(frame: frame)
         
-        self.clipsToBounds = false
-        self.backgroundColor = UIColor.clearColor()
+        clipsToBounds = false
+        backgroundColor = UIColor.clear
         
         // set parent, set default my stack index
-        self.connectLine = CAShapeLayer()
-        self.layer.addSublayer(self.connectLine)
+        connectLine = CAShapeLayer()
+        layer.addSublayer(connectLine)
         
-        self.parent = parent
+        parent = userParent
         stackIndex = 0
         
-        let cellRect = CGRectMake(self.cellIndent, self.cellIndent, frame.width-self.cellIndent*2, frame.height-(self.cellIndent*2))
+        let cellRect = CGRect(x: cellIndent, y: cellIndent, width: frame.width-cellIndent*2, height: frame.height-(cellIndent*2))
         
         // create base view
-        self.baseView.frame = cellRect
-        self.baseView.backgroundColor = .whiteColor()
-        self.baseView.layer.cornerRadius = 5.0
-        self.baseView.layer.borderColor = UIColor.darkGrayColor().CGColor
-        self.baseView.layer.borderWidth = 1.5
-        self.addSubview(self.baseView)
+        baseView.frame = cellRect
+        baseView.backgroundColor = .white
+        baseView.layer.cornerRadius = 5.0
+        baseView.layer.borderColor = UIColor.darkGray.cgColor
+        baseView.layer.borderWidth = 1.5
+        addSubview(baseView)
         
         // create controls
         // name, position, company label
-        self.udid = udid
-        self.name = UILabel(frame: CGRectMake(5, 2, cellRect.width-10, cellRect.height * 10/26))
-        self.name.font = UIFont(name:"HelveticaNeue", size: 10.0)
-        self.name.text = name
-        self.name.textAlignment = .Center
-        baseView.addSubview(self.name)
+        udid = userUdid
+        name = UILabel(frame: CGRect(x: 5, y: 2, width: cellRect.width-10, height: cellRect.height * 10/26))
+        name.font = UIFont(name:"HelveticaNeue", size: 10.0)
+        name.text = userName
+        name.textAlignment = .center
+        baseView.addSubview(name)
         
-        self.position = UILabel(frame: CGRectMake(5, cellRect.height*(8/26), cellRect.width-10, cellRect.height * 8/26))
-        self.position.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
-        self.position.text = position ?? ""
-        self.position.textAlignment = .Center
-        baseView.addSubview(self.position)
+        position = UILabel(frame: CGRect(x: 5, y: cellRect.height*(8/26), width: cellRect.width-10, height: cellRect.height * 8/26))
+        position.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
+        position.text = userPosition ?? ""
+        position.textAlignment = .center
+        baseView.addSubview(position)
         
-        self.company = UILabel(frame: CGRectMake(5, cellRect.height*(14/26), cellRect.width-10, cellRect.height * 8/26))
-        self.company.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
-        self.company.text = company ?? ""
-        self.company.textAlignment = .Center
-        baseView.addSubview(self.company)
+        company = UILabel(frame: CGRect(x: 5, y: cellRect.height*(14/26), width: cellRect.width-10, height: cellRect.height * 8/26))
+        company.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
+        company.text = userCompany ?? ""
+        company.textAlignment = .center
+        baseView.addSubview(company)
         
         // Create Link Point
-        let linkBtnRect = CGRectMake(0, 0, 20, 20)
+        let linkBtnRect = CGRect(x: 0, y: 0, width: 20, height: 20)
         
         // top link position
-        self.topLink = UIButton(frame: linkBtnRect)
-        self.topLink.center = CGPointMake(cellRect.width/2, 0)
-        self.topLink.backgroundColor = .clearColor()//.redColor()
-        //self.topLink.alpha = 0.5
-        self.baseView.addSubview(self.topLink)
+        topLink = UIButton(frame: linkBtnRect)
+        topLink.center = CGPoint(x: cellRect.width/2, y: 0)
+        topLink.backgroundColor = .clear//.redColor()
+        //topLink.alpha = 0.5
+        baseView.addSubview(topLink)
         
         // bottom link, extend button
-        self.bottomLink = UIButton(frame: linkBtnRect)
-        self.bottomLink.center = CGPointMake(cellRect.width/2, self.baseView.frame.height)
-        self.bottomLink.addTarget(self, action: #selector(OrgChartCell.extend(_:)), forControlEvents: .TouchUpInside)
-        self.bottomLink.setImage(UIImage(named: "plus"), forState: .Normal)
-        self.baseView.addSubview(self.bottomLink)
+        bottomLink = UIButton(frame: linkBtnRect)
+        bottomLink.center = CGPoint(x: cellRect.width/2, y: baseView.frame.height)
+        bottomLink.addTarget(self, action: #selector(OrgChartCell.extend(_:)), for: .touchUpInside)
+        bottomLink.setImage(UIImage(named: "plus"), for: UIControlState())
+        baseView.addSubview(bottomLink)
         
         // left link
-        self.leftLink = UIButton(frame: linkBtnRect)
-        self.leftLink.center = CGPointMake(0, cellRect.height/2)
-        self.leftLink.backgroundColor = .clearColor()//.greenColor()
-        //self.leftLink.alpha = 0.5
-        self.baseView.addSubview(self.leftLink)
+        leftLink = UIButton(frame: linkBtnRect)
+        leftLink.center = CGPoint(x: 0, y: cellRect.height/2)
+        leftLink.backgroundColor = .clear//.greenColor()
+        //leftLink.alpha = 0.5
+        baseView.addSubview(leftLink)
         
         // set view size
-        self.heightAnchor.constraintEqualToConstant(frame.height).active = true
-        self.widthAnchor.constraintEqualToConstant(frame.width).active = true
+        heightAnchor.constraint(equalToConstant: frame.height).isActive = true
+        widthAnchor.constraint(equalToConstant: frame.width).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    // set baseview's indent
-    func setIndent(indent: CGFloat) ->Void {
-        var baseViewRc = self.baseView.frame
-        self.cellIndent = indent
+    // MARK: - override
+    // extend button hitTest on outside of baseView
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        
+        let translatedPoint = bottomLink.convert(point, from: self)
+        
+        if (bottomLink.bounds.contains(translatedPoint)) {
+            return bottomLink.hitTest(translatedPoint, with: event)
+        }
+        return super.hitTest(point, with: event)
+    }
+    
+    // MARK: - Public functions
+    
+    // set baseView's indent
+    func setIndent(_ indent: CGFloat) ->Void {
+        var baseViewRc = baseView.frame
         baseViewRc.origin.x = indent
         
-        self.baseView.frame = baseViewRc
+        baseView.frame = baseViewRc
+        cellIndent = indent
     }
     
-    func setCellColor(bgColor: UIColor, fontColor: UIColor) ->Void {
+    func setCellColor(_ bgColor: UIColor, fontColor: UIColor) ->Void {
+        
         // change baseView's  bg color and Font color
-        self.baseView.backgroundColor = bgColor
-        self.name.textColor = fontColor
-        self.position.textColor = fontColor
-        self.company.textColor = fontColor
-    }
-    
-    // extend button hitTest on outside of baseView
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        
-        let translatedPoint = self.bottomLink.convertPoint(point, fromView: self)
-        
-        if (CGRectContainsPoint(self.bottomLink.bounds, translatedPoint)) {
-            return self.bottomLink.hitTest(translatedPoint, withEvent: event)
-        }
-        return super.hitTest(point, withEvent: event)
+        baseView.backgroundColor = bgColor
+        name.textColor = fontColor
+        position.textColor = fontColor
+        company.textColor = fontColor
     }
     
     // MARK: - button event
-    // pressed show/hide button
-    func extend(sender: UIButton!) {
-        let hidden = self.childStack?.hidden
-        self.delegate.cellExtend(self, udid:self.udid, bExtend: (hidden == nil) ? true : hidden!)
+    
+    // when pressed show/hide button
+    func extend(_ sender: UIButton!) {
+        let hidden = childStack?.isHidden
+        delegate?.cellExtend(self, udid:udid, bExtend: (hidden == nil) ? true : hidden!)
         
-        self.bottomLink.setImage((hidden == false) ? UIImage(named: "plus") : UIImage(named: "minus"), forState: .Normal)
+        bottomLink.setImage((hidden == false) ? UIImage(named: "plus") : UIImage(named: "minus"), for: UIControlState())
     }    
 }

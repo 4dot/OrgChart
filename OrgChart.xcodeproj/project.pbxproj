@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CB542FE81C99B6BA00012B2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB542FE71C99B6BA00012B2F /* AppDelegate.swift */; };
-		CB542FEA1C99B6BA00012B2F /* OrgChartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB542FE91C99B6BA00012B2F /* OrgChartVC.swift */; };
+		CB542FEA1C99B6BA00012B2F /* OrgChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB542FE91C99B6BA00012B2F /* OrgChartViewController.swift */; };
 		CB542FED1C99B6BA00012B2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB542FEB1C99B6BA00012B2F /* Main.storyboard */; };
 		CB542FEF1C99B6BA00012B2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB542FEE1C99B6BA00012B2F /* Assets.xcassets */; };
 		CB542FF21C99B6BA00012B2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB542FF01C99B6BA00012B2F /* LaunchScreen.storyboard */; };
@@ -41,7 +41,7 @@
 /* Begin PBXFileReference section */
 		CB542FE41C99B6BA00012B2F /* OrgChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrgChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB542FE71C99B6BA00012B2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CB542FE91C99B6BA00012B2F /* OrgChartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgChartVC.swift; sourceTree = "<group>"; };
+		CB542FE91C99B6BA00012B2F /* OrgChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgChartViewController.swift; sourceTree = "<group>"; };
 		CB542FEC1C99B6BA00012B2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CB542FEE1C99B6BA00012B2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB542FF11C99B6BA00012B2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -96,7 +96,7 @@
 		109592F91CA63BC500B16769 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				CB542FE91C99B6BA00012B2F /* OrgChartVC.swift */,
+				CB542FE91C99B6BA00012B2F /* OrgChartViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -235,18 +235,21 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Park, Chanick";
 				TargetAttributes = {
 					CB542FE31C99B6BA00012B2F = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0820;
 					};
 					CB542FF71C99B6BA00012B2F = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0820;
 						TestTargetID = CB542FE31C99B6BA00012B2F;
 					};
 					CB5430021C99B6BA00012B2F = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0820;
 						TestTargetID = CB542FE31C99B6BA00012B2F;
 					};
 				};
@@ -305,7 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB5430181C99F33300012B2F /* OrgChartData.swift in Sources */,
-				CB542FEA1C99B6BA00012B2F /* OrgChartVC.swift in Sources */,
+				CB542FEA1C99B6BA00012B2F /* OrgChartViewController.swift in Sources */,
 				CB5430161C99B81100012B2F /* OrgChartCell.swift in Sources */,
 				CBBB5E0D1C9AEF6500990B92 /* OrgChartLayout.swift in Sources */,
 				CBBB5E0B1C9AE44100990B92 /* OrgChartView.swift in Sources */,
@@ -377,8 +380,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -400,7 +405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -422,8 +427,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -439,9 +446,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -452,9 +460,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = OrgChart/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-dot.orgchart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -463,9 +473,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = OrgChart/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-dot.orgchart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -477,6 +489,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = optionsgroup.OrgChartTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrgChart.app/OrgChart";
 			};
 			name = Debug;
@@ -489,6 +502,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = optionsgroup.OrgChartTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrgChart.app/OrgChart";
 			};
 			name = Release;
@@ -500,6 +514,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = optionsgroup.OrgChartUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = OrgChart;
 				USES_XCTRUNNER = YES;
 			};
@@ -512,6 +527,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = optionsgroup.OrgChartUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = OrgChart;
 				USES_XCTRUNNER = YES;
 			};

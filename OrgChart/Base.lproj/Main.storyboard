@@ -1,24 +1,28 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pUe-TG-rag">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pUe-TG-rag">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Org ChartVC-->
+        <!--Org Chart View Controller-->
         <scene sceneID="ZOX-R9-xaB">
             <objects>
-                <viewController id="pUe-TG-rag" customClass="OrgChartVC" customModule="OrgChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pUe-TG-rag" customClass="OrgChartViewController" customModule="OrgChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nox-Wz-OHW"/>
                         <viewControllerLayoutGuide type="bottom" id="DB2-pD-5vK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rax-nW-4lf" customClass="OrgChartView" customModule="OrgChart" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="in8-1l-pTD" userLabel="Sample Stack View-TopDown Style">
                                 <rect key="frame" x="20" y="400" width="267" height="180"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UXU-aH-xeH">
                                         <rect key="frame" x="118" y="0.0" width="31" height="30"/>
@@ -48,7 +52,7 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="90"/>
                                                                         <subviews>
                                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5P0-Id-dTk">
-                                                                                <rect key="frame" x="9" y="0.0" width="31" height="30"/>
+                                                                                <rect key="frame" x="9.5" y="0.0" width="31" height="30"/>
                                                                                 <state key="normal" title="SW1"/>
                                                                             </button>
                                                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="aqs-3k-OFE">
@@ -74,7 +78,7 @@
                                                                         <rect key="frame" x="83" y="0.0" width="98" height="60"/>
                                                                         <subviews>
                                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6lg-8b-E7d">
-                                                                                <rect key="frame" x="32" y="0.0" width="34" height="30"/>
+                                                                                <rect key="frame" x="32.5" y="0.0" width="33" height="30"/>
                                                                                 <state key="normal" title="SW3"/>
                                                                             </button>
                                                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="E0T-vz-yfG">
@@ -112,6 +116,7 @@
                             </stackView>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="z0R-Nw-p5C" userLabel="Sample Stack View-LeftRight Style">
                                 <rect key="frame" x="348" y="400" width="232" height="180"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJV-Jj-gc8">
                                         <rect key="frame" x="0.0" y="0.0" width="31" height="30"/>
@@ -204,7 +209,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="gFC-Ww-UTG" appends="YES" id="CO2-Pb-c0Q"/>
@@ -226,7 +231,7 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="151" y="1502"/>
+            <point key="canvasLocation" x="384" y="1383"/>
         </scene>
     </scenes>
 </document>

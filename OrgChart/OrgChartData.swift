@@ -9,55 +9,63 @@
 import UIKit
 
 
+//
+// OrgChart Data Model class
+//
 
-// MARK: - OrgChartData
 class OrgChartData {
     
-    class func loadOrgChartData(fileName: String) -> OrgChartData {
+    // MARK: - Member variables
+    
+    var udid: String
+    var name: String
+    var position: String?
+    var company: String?
+    var children: [OrgChartData] = []
+    
+    // MARK: - Class function
+    class func loadOrgChartData(_ fileName: String) -> OrgChartData {
         
-        var OrgChart:OrgChartData?
+        var OrgChart: OrgChartData?
         
-        let url = NSBundle.mainBundle().URLForResource(fileName, withExtension: "json")
-        let data = NSData(contentsOfURL: url!)
+        // Load json data from local resource
+        
+        let url = Bundle.main.url(forResource: fileName, withExtension: "json")
+        let data = try? Data(contentsOf: url!)
         
         do {
-            let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+            let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:AnyObject]
             
-            // Load Root
+            // Load Root Cell's data
             let udid = json["udid"] as? String
             let name = json["name"] as? String
             let company = json["company"] as? String
             let position = json["position"] as? String
             let children = json["children"] as? [[String: AnyObject]]
             
+            // Create chart data
             OrgChart = OrgChartData(udid: udid!, name: name!, position: position, company: company, children: children)
             
         } catch {
-            print("error serializing JSON: \(error)")
+            print("Error serializing JSON: \(error)")
         }
         
         return OrgChart!
     }
     
-    var udid: String
-    var name: String
-    var position: String?
-    var company: String?
-    var children: [OrgChartData]?
+    // MARK: - Init
     
-    
-    init(udid: String, name: String, position: String?, company: String?, children: [AnyObject]?) {
+    init(udid: String, name: String, position: String?, company: String?, children: [[String: AnyObject]]?) {
         self.udid = udid
         self.name = name
         self.position = position ?? ""
         self.company = company ?? ""
-        self.children = nil
+        self.children = []
         
         // Load Children
-        if let children = children as? [[String: AnyObject]] {
-            self.children = []
+        if let children = children {
             for child in children {
-                addChild(self, dictionary: child)
+                addChild(self, dictionary: child as NSDictionary)
             }
         }
     }
@@ -67,27 +75,27 @@ class OrgChartData {
         let name = dictionary["name"] as? String
         let position = dictionary["position"] as? String
         let company = dictionary["company"] as? String
-        let children = dictionary["children"] as? [AnyObject]
+        let children = dictionary["children"] as? [[String: AnyObject]]
         
         self.init(udid: udid!, name: name!, position: position, company: company, children: children)
     }
     
-    func addChild(parent:OrgChartData, dictionary:NSDictionary) {
+    // MARK: - Public functions
+    
+    func addChild(_ parent:OrgChartData, dictionary:NSDictionary) {
         let childData = OrgChartData(dictionary: dictionary)
-        parent.children?.append(childData)
+        parent.children.append(childData)
     }
     
-    func getChildren(root:OrgChartData, udid:String) ->[OrgChartData]? {
+    // find children recursively
+    func getChildren(_ root:OrgChartData, udid:String) ->[OrgChartData]? {
         if root.udid == udid {
             return root.children
         }
         
-        if let children = root.children {
-            for child in children {
-                let children:[OrgChartData]? = getChildren(child, udid: udid)
-                if children != nil {
-                    return children
-                }
+        for child in root.children {
+            if let children:[OrgChartData] = getChildren(child, udid: udid) {
+                return children
             }
         }
         
