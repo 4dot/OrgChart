@@ -33,7 +33,7 @@ class OrgChartCell: UIView {
     var topLink: UIButton!
     var bottomLink: UIButton!
     var leftLink: UIButton!
-    var parent: OrgChartCell?
+    weak var parent: OrgChartCell?
     var connectLine: CAShapeLayer!
     
     // Show/Hide

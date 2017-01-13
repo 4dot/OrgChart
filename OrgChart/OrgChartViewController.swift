@@ -15,53 +15,61 @@ import UIKit
 //
 class OrgChartViewController: UIViewController, OrgChartCellDelegate {
 
-    // Load Local .Json file
-    var orgChart = OrgChartData.loadOrgChartData("OrgChart")
+    // Load from Local .Json file
+    private var _orgChart: OrgChartData!
+        
     
     
-    // MARK: - override functions
+    
+    // MARK: - Override functions
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        // save root cell
+        // Load .Json file
+        do {
+            let _orgChart = try OrgChartData.loadOrgChartData("OrgChart")
+        } catch {
+            print("Error loadOrgChartData JSON: \(error)")
+        }
+        
+        
+        // Create root cell & root stack view
+        
         if let chartView = self.view as? OrgChartView {
             
-            // create root view
-            
-            // default cell size
+            // Default cell size -----------------------------------------
             let cellFrame = CGRect(x: 0, y: 0, width: 170, height: 80)
-            let root = createOrgChartCell(cellFrame, root: nil, childData: orgChart)
-            root.delegate = self
-            root.setCellColor(UIColor(red: 61/255, green: 123/255, blue: 99/255, alpha: 1.0), fontColor: UIColor.white)
-            chartView.scrollView.addSubview(root)
+            //------------------------------------------------------------
             
-            // create first root stack view
+            let rootCell = createOrgChartCell(cellFrame, root: nil, childData: _orgChart)
+            rootCell.delegate = self
+            rootCell.setCellColor(UIColor(red: 61/255, green: 123/255, blue: 99/255, alpha: 1.0), fontColor: UIColor.white) // green color
+            
+            chartView._scrollView.addSubview(rootCell)
+            
+            // Create root stack view
             let rootStack = OrgChartView.createStackView(.vertical)
-            rootStack.addArrangedSubview(root)
+            rootStack.addArrangedSubview(rootCell)
             
-            // attach stackview into the OrgChartViewController
-            chartView.scrollView.addSubview(rootStack)
-            root.myStack = rootStack
+            // Attach stackview into the OrgChartViewController
+            chartView._scrollView.addSubview(rootStack)
+            rootCell.myStack = rootStack
             
-            // save root cell
-            chartView.rootCell = root;
+            // Save reference root cell
+            chartView._rootCell = rootCell;
             
-            // Position of OrgChart Root StackView
-            rootStack.centerXAnchor.constraint(equalTo: chartView.scrollView.centerXAnchor).isActive = true
-            rootStack.topAnchor.constraint(equalTo: chartView.scrollView.topAnchor, constant: 100).isActive = true
+            // Set position of OrgChart Root StackView
+            rootStack.centerXAnchor.constraint(equalTo: chartView._scrollView.centerXAnchor).isActive = true
+            rootStack.topAnchor.constraint(equalTo: chartView._scrollView.topAnchor, constant: 100).isActive = true
             
             // Add First Children
-            addChildren(root, children: self.orgChart.children, frame: cellFrame)
+            addChildren(rootCell, children: _orgChart.children, frame: cellFrame)
             
-            // set 'opened' button image
-            root.bottomLink.setImage(UIImage(named: "minus"), for: UIControlState())
+            // Set button image
+            rootCell.bottomLink.setImage(UIImage(named: "minus"), for: .normal)
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Public Functions
@@ -69,20 +77,18 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
     // Add Children cell
     func addChildren(_ root: OrgChartCell?, children:[OrgChartData]?, frame: CGRect) ->Void {
         
-        // check children, children's count
-        guard let children = children else {
+        // Check children, chartView type
+        guard let children = children,
+            let chartView = self.view as? OrgChartView,
+            children.isEmpty else {
             return
         }
         
-        if children.isEmpty {
-            return
-        }
-        
-        // append cell list
-        var willAppendCell = [OrgChartCell]()
+        // Insert cells to chartView
+        var willAppendCell: [OrgChartCell] = []
         var lineLinkType: LinkType = .leftBottom
         
-        // Create Child Cells
+        // Create Children Cells
         for child in children {
             
             let newCell = createOrgChartCell(frame, root: root, childData: child)
@@ -90,7 +96,7 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
             newCell.parent = root
             willAppendCell.append(newCell)
             
-            // check end of the tree
+            // Hide Botton Link Button if End of the tree
             if child.children.count > 0 {
                 lineLinkType = .topBottom
                 newCell.bottomLink.isHidden = false
@@ -100,50 +106,73 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
             }
         }
         
+        // Line type is [.topBottom] if append cell has one child
         if lineLinkType == .leftBottom && children.count <= 1 {
             lineLinkType = .topBottom
         }
         
-        // set link line type child cell to parent cell
+        // Set link line type for connection line draw
         root?.childLinkType = lineLinkType
         
-        // attach child cell into chartView
-        if let chartView = self.view as? OrgChartView {
-            chartView.insertChildren(root, children: willAppendCell)
-        }
+        // Attach child cell into chartView
+        chartView.insertChildren(root, children: willAppendCell)
     }
     
-    // create orgchart cell view
-    fileprivate func createOrgChartCell(_ frame: CGRect, root: OrgChartCell?, childData: OrgChartData) ->OrgChartCell {
+    // MARK: - Private functions
+    
+    // Create orgchart cell view
+    private func createOrgChartCell(_ frame: CGRect, root: OrgChartCell?, childData: OrgChartData) ->OrgChartCell {
         return OrgChartCell(frame: frame, userUdid: childData.udid, userName: childData.name, userPosition: childData.position, userCompany: childData.company, userParent: root)
     }
-    
-    
+}
+
+//
+// OrgChartViewController extension for OrgChartCellDelegate Protocol
+//
+extension OrgChartViewController {
     
     // MARK: - OrgChartCellDelegate
     
     func cellExtend(_ parent:OrgChartCell, udid: String, bExtend: Bool) {
+        
         if parent.childStack != nil {
-            UIView.animate(withDuration: 0.25, animations: {
+            
+            // StackView Animation
+            UIView.animate(withDuration: 0.25, animations: { [weak self] in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                
                 parent.childStack?.isHidden = !bExtend
                 
-                self.view.setNeedsDisplay()
-                }, completion: { [unowned self] (finished: Bool) -> Void in
-                    // change view size
-                    if let chartView = self.view as? OrgChartView {
-                        chartView.updateScrollViewSize()
-                    }
-                })
+                // Update
+                strongSelf.view.setNeedsDisplay()
+                
+            }, completion: { [weak self] (finished: Bool) -> Void in
+                
+                // Check viewType
+                guard let strongSelf = self,
+                      let chartView = strongSelf.view as? OrgChartView else {
+                    return
+                }
+                
+                // Update view size
+                chartView.updateScrollViewSize()
+            })
         }
         else {
             if bExtend == true {
-                // find parent
-                if let children = self.orgChart.getChildren(self.orgChart, udid: udid) {
-                    // extend tree
+                
+                // Find parent
+                if let children = _orgChart.getChildren(_orgChart, udid: udid) {
+                    
+                    // Extend tree
                     addChildren(parent, children: children, frame: parent.frame)
                 }
             }
         }
     }
 }
+
 

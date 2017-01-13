@@ -13,107 +13,116 @@ enum LinkType{
     case leftBottom
 }
 
+// Zoom Scale
 let MAX_SCALE: CGFloat = 2.0
 let MIN_SCALE: CGFloat = 1.0
 
+//
+// OrgChartView Class
+//
 class OrgChartView: UIView {
     
     // for update all children cells
-    var orgChartCells: [OrgChartCell] = []
+    var _orgChartCells: [OrgChartCell] = []
     
     // for pinch, pan
-    var scale: CGFloat = 1.0
-    var centerPos: CGPoint = CGPoint.zero
+    var _scale: CGFloat = 1.0
+    var _centerPos: CGPoint = CGPoint.zero
     
     // root cell
-    var rootCell: OrgChartCell?
+    weak var _rootCell: OrgChartCell?
     
-    var scrollView: UIScrollView!
+    var _scrollView: UIScrollView!
     
-    var scaleFactor: CGFloat = 1.0
+    var _scaleFactor: CGFloat = 1.0
     
+    
+    
+    // MARK: - Initialize
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.scrollView = UIScrollView()
-        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(self.scrollView)
+        _scrollView = UIScrollView()
+        _scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(_scrollView)
         
         // same size with chartview
-        let horizontalConstraint = self.scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        let verticalConstraint = self.scrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        let widthConstraint = self.scrollView.widthAnchor.constraint(equalTo: self.widthAnchor)
-        let heightConstraint = self.scrollView.heightAnchor.constraint(equalTo: self.heightAnchor)
+        let horizontalConstraint = _scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        let verticalConstraint = _scrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        let widthConstraint = _scrollView.widthAnchor.constraint(equalTo: self.widthAnchor)
+        let heightConstraint = _scrollView.heightAnchor.constraint(equalTo: self.heightAnchor)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
     
     // insert children cells
     func insertChildren(_ parent:OrgChartCell?, children:[OrgChartCell]) ->Void {
         
-        // create default stackview
-        let stackView = OrgChartView.createStackView((children.count > 1 && parent?.childLinkType == .topBottom) ? .horizontal : .vertical)
+        // Check Parent Cell Validation
+        guard let validParent = parent else {
+            return
+        }
         
+        // create default stackview
+        let stackView = OrgChartView.createStackView((children.count > 1 && validParent.childLinkType == .topBottom) ? .horizontal : .vertical)
+        
+        // Insert Children Cells to ScrollView
         for (index, child) in children.enumerated() {
+            
             // attach Subview
-            self.scrollView.addSubview(child)
-            self.orgChartCells.append(child)
+            _scrollView.addSubview(child)
+            _orgChartCells.append(child)
             
             child.myStack = stackView
             
             stackView.addArrangedSubview(child)
             child.stackIndex = index
         }
-        // Do not Attach stackView to scrollView
-        //self.scrollView.addSubview(stackView)
-
         var targetStack: UIStackView?
-        // one more wrapping with vertical stackview when parent have over 2 child
-        if let validParent = parent {
-            if(validParent.myStack.axis == .horizontal) {
-                let vertStackView = OrgChartView.createStackView(.vertical)
-                self.scrollView.addSubview(vertStackView)
-                
-                validParent.myStack.insertArrangedSubview(vertStackView, at: validParent.stackIndex)
-                
-                // remove parent from prev stackview and insert new stackview
-                validParent.myStack.removeArrangedSubview(validParent)
-                validParent.myStack = vertStackView
-                
-                vertStackView.addArrangedSubview(validParent)
-                vertStackView.addArrangedSubview(stackView)
-                
-                // target stack for update
-                targetStack = vertStackView
-            }
-            else {
-                // insert stackview to end of parent's stackview
-                validParent.myStack.insertArrangedSubview(stackView, at: validParent.myStack.arrangedSubviews.count)
-                
-                // target stack for update
-                targetStack = validParent.myStack
-                
-            }
+        
+        if(validParent.myStack.axis == .horizontal) {
+            let vertStackView = OrgChartView.createStackView(.vertical)
+            _scrollView.addSubview(vertStackView)
             
-            // Adding animation
-            UIView.animate(withDuration: 0.25, animations: {
-                // stackview animation
-                targetStack!.layoutIfNeeded()
-                self.setNeedsDisplay()
-                }, completion: { [unowned self] (finished: Bool) -> Void in
-                    // change view size
-                    self.updateScrollViewSize()
-                })
+            validParent.myStack.insertArrangedSubview(vertStackView, at: validParent.stackIndex)
             
-            // save children's stackview
-            validParent.childStack = stackView
+            // remove parent from prev stackview and insert new stackview
+            validParent.myStack.removeArrangedSubview(validParent)
+            validParent.myStack = vertStackView
+            
+            vertStackView.addArrangedSubview(validParent)
+            vertStackView.addArrangedSubview(stackView)
+            
+            // target stack for update
+            targetStack = vertStackView
         }
+        else {
+            // insert stackview to end of parent's stackview
+            validParent.myStack.insertArrangedSubview(stackView, at: validParent.myStack.arrangedSubviews.count)
+            
+            // target stack for update
+            targetStack = validParent.myStack
+            
+        }
+        
+        // Adding animation
+        UIView.animate(withDuration: 0.25, animations: {
+            // stackview animation
+            targetStack!.layoutIfNeeded()
+            self.setNeedsDisplay()
+        }, completion: { [unowned self] (finished: Bool) -> Void in
+            // change view size
+            self.updateScrollViewSize()
+        })
+        
+        // save children's stackview
+        validParent.childStack = stackView
     }
     
     func updateScrollViewSize() ->Void {
         // need scrollview update
         var bNeedScroll: Bool = false
         var contentSize = self.frame.size
-        if let rootStackFrame = self.rootCell?.myStack.frame {
+        if let rootStackFrame = _rootCell?.myStack.frame {
             if rootStackFrame.width > contentSize.width {
                 contentSize.width = rootStackFrame.width
                 bNeedScroll = true
@@ -123,19 +132,19 @@ class OrgChartView: UIView {
                 bNeedScroll = true
             }
             
-            self.scrollView.isScrollEnabled = bNeedScroll
-            self.scrollView.contentSize = contentSize
+            _scrollView.isScrollEnabled = bNeedScroll
+            _scrollView.contentSize = contentSize
             let leftInset = (contentSize.width - self.frame.size.width)/2
-            let topInset = (self.scaleFactor != 1.0) ? abs(rootStackFrame.origin.y) : 0
+            let topInset = (_scaleFactor != 1.0) ? abs(rootStackFrame.origin.y) : 0
             
-            self.scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: -topInset, right: -leftInset)
+            _scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: -topInset, right: -leftInset)
         }
         
         
         
         //self.rootCell?.myStack.frame.origin.x = 0
-        //self.scrollView.layoutIfNeeded()
-        //self.scrollView.setNeedsLayout()
+        //_scrollView.layoutIfNeeded()
+        //_scrollView.setNeedsLayout()
     }
     
     // MARK: - override func.
@@ -145,7 +154,7 @@ class OrgChartView: UIView {
         // Loop All Cells
         let DEFAULTCELL_INDENT: CGFloat = 10.0
         
-        for case let childCell in self.orgChartCells {
+        for case let childCell in _orgChartCells {
             
             guard let parent = childCell.parent else {
                 continue
@@ -253,7 +262,7 @@ class OrgChartView: UIView {
         }
         
         //self.transform = CGAffineTransformMakeScale(scale, scale)
-        self.rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
+        _rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
         
         // end
         if sender.state == UIGestureRecognizerState.ended {
@@ -265,12 +274,12 @@ class OrgChartView: UIView {
             }
         }
         
-        self.scaleFactor = scale
+        _scaleFactor = scale
         
         UIView.animate(withDuration: 0.25, animations: {
             // change view size
             //self.transform = CGAffineTransformMakeScale(scale, scale)
-            self.rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
+            _rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
             }, completion: { [unowned self] (finished: Bool) -> Void in
                 // update scrollview size
                 self.updateScrollViewSize()

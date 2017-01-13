@@ -23,8 +23,9 @@ class OrgChartData {
     var company: String?
     var children: [OrgChartData] = []
     
-    // MARK: - Class function
-    class func loadOrgChartData(_ fileName: String) -> OrgChartData {
+    // MARK: - Class (Static) function
+    
+    class func loadOrgChartData(_ fileName: String) throws -> OrgChartData? {
         
         var OrgChart: OrgChartData?
         
@@ -50,12 +51,14 @@ class OrgChartData {
             print("Error serializing JSON: \(error)")
         }
         
-        return OrgChart!
+        return OrgChart
     }
     
     // MARK: - Init
     
     init(udid: String, name: String, position: String?, company: String?, children: [[String: AnyObject]]?) {
+        
+        // Init
         self.udid = udid
         self.name = name
         self.position = position ?? ""
@@ -71,24 +74,28 @@ class OrgChartData {
     }
     
     convenience init(dictionary: NSDictionary) {
-        let udid = dictionary["udid"] as? String
-        let name = dictionary["name"] as? String
+        
+        let udid = (dictionary["udid"] as? String) ?? ""
+        let name = dictionary["name"] as? String ?? ""
         let position = dictionary["position"] as? String
         let company = dictionary["company"] as? String
         let children = dictionary["children"] as? [[String: AnyObject]]
         
-        self.init(udid: udid!, name: name!, position: position, company: company, children: children)
+        self.init(udid: udid, name: name, position: position, company: company, children: children)
     }
     
     // MARK: - Public functions
     
     func addChild(_ parent:OrgChartData, dictionary:NSDictionary) {
+        
+        // Create ChildData
         let childData = OrgChartData(dictionary: dictionary)
         parent.children.append(childData)
     }
     
-    // find children recursively
+    // Find target's children recursively
     func getChildren(_ root:OrgChartData, udid:String) ->[OrgChartData]? {
+        
         if root.udid == udid {
             return root.children
         }
