@@ -216,6 +216,9 @@
                             <outletCollection property="gestureRecognizers" destination="vuo-Pi-F67" appends="YES" id="wwT-31-qxa"/>
                         </connections>
                     </view>
+                    <connections>
+                        <outlet property="_orgChartView" destination="rax-nW-4lf" id="MCA-Be-ix3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="idW-gN-Kea" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="vuo-Pi-F67">

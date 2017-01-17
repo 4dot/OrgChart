@@ -10,8 +10,8 @@ import UIKit
 
 // Protocols
 
-protocol OrgChartCellDelegate {
-    func cellExtend(_ parent:OrgChartCell, udid:String, bExtend:Bool) ->Void
+protocol OrgChartCellDelegate : class {
+    func cellExtend(_ parent:OrgChartCell, udid:String, bExtend:Bool)
 }
 
 
@@ -33,35 +33,37 @@ class OrgChartCell: UIView {
     var topLink: UIButton!
     var bottomLink: UIButton!
     var leftLink: UIButton!
-    weak var parent: OrgChartCell?
     var connectLine: CAShapeLayer!
+    
+    weak var parent: OrgChartCell?
     
     // Show/Hide
     var myStack: UIStackView!
     var childStack: UIStackView?
     
-    // My index at StackView
+    // My index of StackView
     var stackIndex: NSInteger!
     
-    // check for final children(end of the tree)
+    // Connection Line Type
     var childLinkType: LinkType = .topBottom
     
-    // cell indent 5 pixels
+    // Cell indent, Default 10 pixels
     var cellIndent:CGFloat = 10
     
     // delegate
-    var delegate:OrgChartCellDelegate?
+    weak var delegate:OrgChartCellDelegate?
     
     
     // MARK: - Initialize
     
     init(frame: CGRect, userUdid: String, userName: String, userPosition: String?, userCompany: String?, userParent:OrgChartCell?) {
+        
         super.init(frame: frame)
         
         clipsToBounds = false
         backgroundColor = UIColor.clear
         
-        // set parent, set default my stack index
+        // Set parent, set default my stack index
         connectLine = CAShapeLayer()
         layer.addSublayer(connectLine)
         
@@ -102,14 +104,14 @@ class OrgChartCell: UIView {
         // Create Link Point
         let linkBtnRect = CGRect(x: 0, y: 0, width: 20, height: 20)
         
-        // top link position
+        // top link button position
         topLink = UIButton(frame: linkBtnRect)
         topLink.center = CGPoint(x: cellRect.width/2, y: 0)
         topLink.backgroundColor = .clear//.redColor()
         //topLink.alpha = 0.5
         baseView.addSubview(topLink)
         
-        // bottom link, extend button
+        // bottom link button, extend button
         bottomLink = UIButton(frame: linkBtnRect)
         bottomLink.center = CGPoint(x: cellRect.width/2, y: baseView.frame.height)
         bottomLink.addTarget(self, action: #selector(OrgChartCell.extend(_:)), for: .touchUpInside)
@@ -123,7 +125,7 @@ class OrgChartCell: UIView {
         //leftLink.alpha = 0.5
         baseView.addSubview(leftLink)
         
-        // set view size
+        // Set view size
         heightAnchor.constraint(equalToConstant: frame.height).isActive = true
         widthAnchor.constraint(equalToConstant: frame.width).isActive = true
     }
@@ -133,7 +135,7 @@ class OrgChartCell: UIView {
     }
     
     // MARK: - override
-    // extend button hitTest on outside of baseView
+    // Hit Test of outside extend button on the baseView
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         
         let translatedPoint = bottomLink.convert(point, from: self)
@@ -148,6 +150,7 @@ class OrgChartCell: UIView {
     
     // set baseView's indent
     func setIndent(_ indent: CGFloat) ->Void {
+        
         var baseViewRc = baseView.frame
         baseViewRc.origin.x = indent
         
@@ -168,9 +171,10 @@ class OrgChartCell: UIView {
     
     // when pressed show/hide button
     func extend(_ sender: UIButton!) {
+        
         let hidden = childStack?.isHidden
         delegate?.cellExtend(self, udid:udid, bExtend: (hidden == nil) ? true : hidden!)
         
-        bottomLink.setImage((hidden == false) ? UIImage(named: "plus") : UIImage(named: "minus"), for: UIControlState())
+        bottomLink.setImage((hidden == false) ? UIImage(named: "plus") : UIImage(named: "minus"), for: .normal)
     }    
 }

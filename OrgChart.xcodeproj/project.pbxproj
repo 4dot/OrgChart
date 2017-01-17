@@ -17,7 +17,6 @@
 		CB5430161C99B81100012B2F /* OrgChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5430151C99B81100012B2F /* OrgChartCell.swift */; };
 		CB5430181C99F33300012B2F /* OrgChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5430171C99F33300012B2F /* OrgChartData.swift */; };
 		CBBB5E0B1C9AE44100990B92 /* OrgChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBB5E0A1C9AE44100990B92 /* OrgChartView.swift */; };
-		CBBB5E0D1C9AEF6500990B92 /* OrgChartLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBB5E0C1C9AEF6500990B92 /* OrgChartLayout.swift */; };
 		CBBB5E221C9C79CF00990B92 /* OrgChart.json in Resources */ = {isa = PBXBuildFile; fileRef = CBBB5E211C9C79CF00990B92 /* OrgChart.json */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +54,6 @@
 		CB5430151C99B81100012B2F /* OrgChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartCell.swift; sourceTree = "<group>"; };
 		CB5430171C99F33300012B2F /* OrgChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartData.swift; sourceTree = "<group>"; };
 		CBBB5E0A1C9AE44100990B92 /* OrgChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartView.swift; sourceTree = "<group>"; };
-		CBBB5E0C1C9AEF6500990B92 /* OrgChartLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartLayout.swift; sourceTree = "<group>"; };
 		CBBB5E211C9C79CF00990B92 /* OrgChart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OrgChart.json; path = Resources/OrgChart.json; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -141,7 +139,6 @@
 				CB542FEB1C99B6BA00012B2F /* Main.storyboard */,
 				CB542FF01C99B6BA00012B2F /* LaunchScreen.storyboard */,
 				CB542FF31C99B6BA00012B2F /* Info.plist */,
-				CBBB5E0C1C9AEF6500990B92 /* OrgChartLayout.swift */,
 			);
 			path = OrgChart;
 			sourceTree = "<group>";
@@ -310,7 +307,6 @@
 				CB5430181C99F33300012B2F /* OrgChartData.swift in Sources */,
 				CB542FEA1C99B6BA00012B2F /* OrgChartViewController.swift in Sources */,
 				CB5430161C99B81100012B2F /* OrgChartCell.swift in Sources */,
-				CBBB5E0D1C9AEF6500990B92 /* OrgChartLayout.swift in Sources */,
 				CBBB5E0B1C9AE44100990B92 /* OrgChartView.swift in Sources */,
 				CB542FE81C99B6BA00012B2F /* AppDelegate.swift in Sources */,
 			);

@@ -14,8 +14,8 @@ enum LinkType{
 }
 
 // Zoom Scale
-let MAX_SCALE: CGFloat = 2.0
-let MIN_SCALE: CGFloat = 1.0
+let ORGCHART_MAX_SCALE: CGFloat = 2.0
+let ORGCHART_MIN_SCALE: CGFloat = 1.0
 
 //
 // OrgChartView Class
@@ -29,28 +29,32 @@ class OrgChartView: UIView {
     var _scale: CGFloat = 1.0
     var _centerPos: CGPoint = CGPoint.zero
     
-    // root cell
-    weak var _rootCell: OrgChartCell?
-    
-    var _scrollView: UIScrollView!
-    
     var _scaleFactor: CGFloat = 1.0
+    
+    // root cell
+    weak var rootCell: OrgChartCell?
+    
+    // Main ScrollView
+    var scrollView: UIScrollView!
     
     
     
     // MARK: - Initialize
+    
     required init?(coder aDecoder: NSCoder) {
+    
         super.init(coder: aDecoder)
         
-        _scrollView = UIScrollView()
-        _scrollView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(_scrollView)
+        // Create scroll view
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(scrollView)
         
-        // same size with chartview
-        let horizontalConstraint = _scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        let verticalConstraint = _scrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        let widthConstraint = _scrollView.widthAnchor.constraint(equalTo: self.widthAnchor)
-        let heightConstraint = _scrollView.heightAnchor.constraint(equalTo: self.heightAnchor)
+        // Same size with chartview
+        let horizontalConstraint = scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        let verticalConstraint = scrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        let widthConstraint = scrollView.widthAnchor.constraint(equalTo: self.widthAnchor)
+        let heightConstraint = scrollView.heightAnchor.constraint(equalTo: self.heightAnchor)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
     
@@ -69,7 +73,7 @@ class OrgChartView: UIView {
         for (index, child) in children.enumerated() {
             
             // attach Subview
-            _scrollView.addSubview(child)
+            scrollView.addSubview(child)
             _orgChartCells.append(child)
             
             child.myStack = stackView
@@ -81,7 +85,7 @@ class OrgChartView: UIView {
         
         if(validParent.myStack.axis == .horizontal) {
             let vertStackView = OrgChartView.createStackView(.vertical)
-            _scrollView.addSubview(vertStackView)
+            scrollView.addSubview(vertStackView)
             
             validParent.myStack.insertArrangedSubview(vertStackView, at: validParent.stackIndex)
             
@@ -118,182 +122,203 @@ class OrgChartView: UIView {
         validParent.childStack = stackView
     }
     
+    // Update scroll view size when zoom in/out
+    
     func updateScrollViewSize() ->Void {
+        
+        guard let rootStackView = rootCell?.myStack else {
+            return
+        }
+        
         // need scrollview update
         var bNeedScroll: Bool = false
         var contentSize = self.frame.size
-        if let rootStackFrame = _rootCell?.myStack.frame {
-            if rootStackFrame.width > contentSize.width {
-                contentSize.width = rootStackFrame.width
-                bNeedScroll = true
-            }
-            if (rootStackFrame.height + rootStackFrame.origin.y) > contentSize.height {
-                contentSize.height = rootStackFrame.height + 100    // 100 : default height position
-                bNeedScroll = true
-            }
-            
-            _scrollView.isScrollEnabled = bNeedScroll
-            _scrollView.contentSize = contentSize
-            let leftInset = (contentSize.width - self.frame.size.width)/2
-            let topInset = (_scaleFactor != 1.0) ? abs(rootStackFrame.origin.y) : 0
-            
-            _scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: -topInset, right: -leftInset)
+        
+        let rootStackFrame = rootStackView.frame
+        
+        //
+        if rootStackFrame.width > contentSize.width {
+            contentSize.width = rootStackFrame.width
+            bNeedScroll = true
+        }
+        if (rootStackFrame.height + rootStackFrame.origin.y) > contentSize.height {
+            contentSize.height = rootStackFrame.height + 100    // 100 : default height position
+            bNeedScroll = true
         }
         
+        scrollView.isScrollEnabled = bNeedScroll
+        scrollView.contentSize = contentSize
+        let leftInset = (contentSize.width - self.frame.size.width)/2
+        let topInset = (_scaleFactor != 1.0) ? abs(rootStackFrame.origin.y) : 0
         
-        
-        //self.rootCell?.myStack.frame.origin.x = 0
-        //_scrollView.layoutIfNeeded()
-        //_scrollView.setNeedsLayout()
+        scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: -topInset, right: -leftInset)
     }
     
     // MARK: - override func.
     
     // draw link Lines
     override func draw(_ rect: CGRect) {
-        // Loop All Cells
+        
+        // Loop all of Cells
         let DEFAULTCELL_INDENT: CGFloat = 10.0
         
         for case let childCell in _orgChartCells {
             
-            guard let parent = childCell.parent else {
+            // Check existing of parent and Hidden cell
+            guard let parent = childCell.parent,
+                  childCell.isHidden == false else {
                 continue
             }
             
-            // curve
+            // curve range
             let curveRange: CGFloat = 3.0
             
-            // draw connection line
-            if childCell.isHidden == false {
-                childCell.setIndent((parent.childLinkType == .topBottom) ? DEFAULTCELL_INDENT : DEFAULTCELL_INDENT * 3)
-                
-                // get lelative position in parent view
-                let parentPos = parent.baseView.convert(parent.bottomLink.center, to: childCell)
-                let startPos = (parent.childLinkType == .topBottom) ? childCell.topLink.center : childCell.leftLink.center
-                let childPos = childCell.baseView.convert(startPos, to: childCell)
-                
-                // Draw BezierPath
-                // Link Child to Parent
-                let path = UIBezierPath()
-                path.move(to: childPos)
-                
+            // Set Indent
+            
+            childCell.setIndent((parent.childLinkType == .topBottom) ? DEFAULTCELL_INDENT : DEFAULTCELL_INDENT * 3)
+            
+            // get lelative position in parent view
+            let parentPos = parent.baseView.convert(parent.bottomLink.center, to: childCell)
+            let startPos = (parent.childLinkType == .topBottom) ? childCell.topLink.center : childCell.leftLink.center
+            let childPos = childCell.baseView.convert(startPos, to: childCell)
+            
+            // Draw BezierPath
+            
+            // Link Child to Parent
+            let path = UIBezierPath()
+            path.move(to: childPos)
+            
+            if parentPos.x == childPos.x {
                 // Simple TopDown Line
-                if parentPos.x == childPos.x {
+                path.addLine(to: parentPos)
+            }
+            else {
+                // Draw Child's Left side to Parent's Bottom
+                if parent.childLinkType == .leftBottom {
+                    let nextPos1: CGPoint = CGPoint(x: childPos.x - DEFAULTCELL_INDENT, y: childPos.y)
+                    let nextPos2: CGPoint = CGPoint(x: nextPos1.x, y: parentPos.y + DEFAULTCELL_INDENT)
+                    let nextPos3: CGPoint = CGPoint(x: parentPos.x, y: nextPos2.y)
+                    
+                    var curvePos1: CGPoint = nextPos1
+                    curvePos1.x = nextPos1.x + curveRange
+                    var curvePos2: CGPoint = nextPos1
+                    curvePos2.y = nextPos1.y - curveRange
+                    var curvePos3: CGPoint = nextPos2
+                    curvePos3.y = nextPos2.y + curveRange
+                    var curvePos4: CGPoint = nextPos2
+                    curvePos4.x = nextPos2.x + curveRange
+                    var curvePos5: CGPoint = nextPos3
+                    curvePos5.x = nextPos3.x - curveRange
+                    var curvePos6: CGPoint = nextPos3
+                    curvePos6.y = nextPos3.y - curveRange
+                    
+                    path.addLine(to: curvePos1)
+                    path.addQuadCurve(to: curvePos2, controlPoint: nextPos1)
+                    path.addLine(to: curvePos3)
+                    path.addQuadCurve(to: curvePos4, controlPoint: nextPos2)
+                    path.addLine(to: curvePos5)
+                    path.addQuadCurve(to: curvePos6, controlPoint: nextPos3)
                     path.addLine(to: parentPos)
+                    
                 }
                 else {
-                    // Draw Child's Left side to Parent's Bottom
-                    if parent.childLinkType == .leftBottom {
-                        let nextPos1: CGPoint = CGPoint(x: childPos.x - DEFAULTCELL_INDENT, y: childPos.y)
-                        let nextPos2: CGPoint = CGPoint(x: nextPos1.x, y: parentPos.y + DEFAULTCELL_INDENT)
-                        let nextPos3: CGPoint = CGPoint(x: parentPos.x, y: nextPos2.y)
-                        
-                        var curvePos1: CGPoint = nextPos1
-                        curvePos1.x = nextPos1.x + curveRange
-                        var curvePos2: CGPoint = nextPos1
-                        curvePos2.y = nextPos1.y - curveRange
-                        var curvePos3: CGPoint = nextPos2
-                        curvePos3.y = nextPos2.y + curveRange
-                        var curvePos4: CGPoint = nextPos2
-                        curvePos4.x = nextPos2.x + curveRange
-                        var curvePos5: CGPoint = nextPos3
-                        curvePos5.x = nextPos3.x - curveRange
-                        var curvePos6: CGPoint = nextPos3
-                        curvePos6.y = nextPos3.y - curveRange
-                        
-                        path.addLine(to: curvePos1)
-                        path.addQuadCurve(to: curvePos2, controlPoint: nextPos1)
-                        path.addLine(to: curvePos3)
-                        path.addQuadCurve(to: curvePos4, controlPoint: nextPos2)
-                        path.addLine(to: curvePos5)
-                        path.addQuadCurve(to: curvePos6, controlPoint: nextPos3)
-                        path.addLine(to: parentPos)
-                        
-                    }
-                    else {
-                        // Draw Child's Top side to Parent's Bottom
-                        let nextPos1: CGPoint = CGPoint(x: childPos.x, y: parentPos.y + (childPos.y - parentPos.y)/2)
-                        let nextPos2: CGPoint = CGPoint(x: parentPos.x, y: nextPos1.y)
-                        
-                        var curvePos1: CGPoint = nextPos1
-                        curvePos1.y = nextPos1.y + curveRange
-                        var curvePos2: CGPoint = nextPos1
-                        curvePos2.x = (nextPos1.x > nextPos2.x) ? (nextPos1.x - curveRange) : (nextPos1.x + curveRange)
-                        var curvePos3: CGPoint = nextPos2
-                        curvePos3.x = (nextPos1.x > nextPos2.x) ? (nextPos2.x + curveRange) : (nextPos2.x - curveRange)
-                        var curvePos4: CGPoint = nextPos2
-                        curvePos4.y = nextPos2.y - curveRange
-                        
-                        
-                        path.addLine(to: curvePos1)
-                        path.addQuadCurve(to: curvePos2, controlPoint: nextPos1)
-                        path.addLine(to: curvePos3)
-                        path.addQuadCurve(to: curvePos4, controlPoint: nextPos2)
-                        path.addLine(to: parentPos)
-                    }
+                    // Draw Child's Top side to Parent's Bottom
+                    let nextPos1: CGPoint = CGPoint(x: childPos.x, y: parentPos.y + (childPos.y - parentPos.y)/2)
+                    let nextPos2: CGPoint = CGPoint(x: parentPos.x, y: nextPos1.y)
+                    
+                    var curvePos1: CGPoint = nextPos1
+                    curvePos1.y = nextPos1.y + curveRange
+                    var curvePos2: CGPoint = nextPos1
+                    curvePos2.x = (nextPos1.x > nextPos2.x) ? (nextPos1.x - curveRange) : (nextPos1.x + curveRange)
+                    var curvePos3: CGPoint = nextPos2
+                    curvePos3.x = (nextPos1.x > nextPos2.x) ? (nextPos2.x + curveRange) : (nextPos2.x - curveRange)
+                    var curvePos4: CGPoint = nextPos2
+                    curvePos4.y = nextPos2.y - curveRange
+                    
+                    
+                    path.addLine(to: curvePos1)
+                    path.addQuadCurve(to: curvePos2, controlPoint: nextPos1)
+                    path.addLine(to: curvePos3)
+                    path.addQuadCurve(to: curvePos4, controlPoint: nextPos2)
+                    path.addLine(to: parentPos)
                 }
-                
-                childCell.connectLine.path = path.cgPath
-                childCell.connectLine.lineWidth = 0.8
-                childCell.connectLine.fillColor = UIColor.clear.cgColor
-                childCell.connectLine.strokeColor = UIColor.darkGray.cgColor
             }
+            
+            childCell.connectLine.path = path.cgPath
+            childCell.connectLine.lineWidth = 0.8
+            childCell.connectLine.fillColor = UIColor.clear.cgColor
+            childCell.connectLine.strokeColor = UIColor.darkGray.cgColor
         }
     }
     
     // MARK: - Pinch Gesture, for Zoom In/Out
     
     @IBAction func pinchDetected(_ sender: UIPinchGestureRecognizer) {
+        
         // start
         if sender.state == UIGestureRecognizerState.began {
             sender.scale = self.transform.a
         }
         
-        var scale: CGFloat = MIN_SCALE
+        var scale: CGFloat = ORGCHART_MIN_SCALE
         
-        if sender.scale < MAX_SCALE {
-            scale = MIN_SCALE - (MIN_SCALE - sender.scale)
+        if sender.scale < ORGCHART_MAX_SCALE {
+            scale = ORGCHART_MIN_SCALE - (ORGCHART_MIN_SCALE - sender.scale)
         }
-        else if sender.scale > MAX_SCALE {
-            scale = MAX_SCALE - (MAX_SCALE - sender.scale) / 4
+        else if sender.scale > ORGCHART_MAX_SCALE {
+            scale = ORGCHART_MAX_SCALE - (ORGCHART_MAX_SCALE - sender.scale) / 4
         }
         else {
             scale = sender.scale
         }
         
-        //self.transform = CGAffineTransformMakeScale(scale, scale)
-        _rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
+        rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
         
-        // end
+        // gesture end
         if sender.state == UIGestureRecognizerState.ended {
-            if sender.scale < MIN_SCALE {
-                scale = MIN_SCALE
+            if sender.scale < ORGCHART_MIN_SCALE {
+                scale = ORGCHART_MIN_SCALE
             }
-            if sender.scale > MAX_SCALE {
-                scale = MAX_SCALE
+            if sender.scale > ORGCHART_MAX_SCALE {
+                scale = ORGCHART_MAX_SCALE
             }
         }
         
+        // Save current Scale factor
         _scaleFactor = scale
         
-        UIView.animate(withDuration: 0.25, animations: {
-            // change view size
-            //self.transform = CGAffineTransformMakeScale(scale, scale)
-            _rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
-            }, completion: { [unowned self] (finished: Bool) -> Void in
-                // update scrollview size
-                self.updateScrollViewSize()
+        UIView.animate(withDuration: 0.25, animations: { [weak self] in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            // Change view size
+            
+            strongSelf.rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
+            }, completion: { [weak self] (finished) -> Void in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+
+                // Update scrollview size
+                strongSelf.updateScrollViewSize()
             })
     }
     
     @IBAction func panDetected(_ sender: UIPanGestureRecognizer) {
         self.bringSubview(toFront: sender.view!)
-        //let translation = sender.translationInView(self)
-        //self.center = CGPointMake(sender.view!.center.x + translation.x, sender.view!.center.y + translation.y)
-        //sender.setTranslation(CGPointZero, inView: self)
     }
+}
+
+//
+// OrgChartView extenstion
+//
+extension OrgChartView {
     
-    // MARK: - Class member func. create default stackview
+    // MARK: - Class member func. 
+    // create default stackview
     class func createStackView(_ axis: UILayoutConstraintAxis) ->UIStackView {
         let stackView = UIStackView()
         stackView.axis = axis

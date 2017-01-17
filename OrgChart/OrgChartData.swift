@@ -25,9 +25,7 @@ class OrgChartData {
     
     // MARK: - Class (Static) function
     
-    class func loadOrgChartData(_ fileName: String) throws -> OrgChartData? {
-        
-        var OrgChart: OrgChartData?
+    class func loadOrgChartData(_ fileName: String) -> OrgChartData! {
         
         // Load json data from local resource
         
@@ -45,13 +43,13 @@ class OrgChartData {
             let children = json["children"] as? [[String: AnyObject]]
             
             // Create chart data
-            OrgChart = OrgChartData(udid: udid!, name: name!, position: position, company: company, children: children)
+            return OrgChartData(udid: udid!, name: name!, position: position, company: company, children: children)
             
         } catch {
             print("Error serializing JSON: \(error)")
         }
         
-        return OrgChart
+        return nil
     }
     
     // MARK: - Init
