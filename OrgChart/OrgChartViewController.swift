@@ -15,8 +15,8 @@ import UIKit
 //
 class OrgChartViewController: UIViewController, OrgChartCellDelegate {
 
-    // Load from Local .Json file
-    var orgChart: OrgChartData = OrgChartData.loadOrgChartData("OrgChart")
+    // OrgChart Data
+    var orgChart: OrgChartData!
     
     
     // OrgChart View
@@ -29,6 +29,9 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
         
         super.viewDidLoad()
         
+        // Load json file
+        orgChart = OrgChartData.loadOrgChartData("OrgChart")
+        
         // Create root cell & root stack view
         
         // Default cell size
@@ -36,7 +39,7 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
         let cellFrame = CGRect(x: 0, y: 0, width: 170, height: 80)
         //------------------------------------------------------------
         
-        let rootCell = createOrgChartCell(cellFrame, root: nil, childData: orgChart)
+        let rootCell = _createOrgChartCell(cellFrame, root: nil, childData: orgChart)
         rootCell.delegate = self
         rootCell.setCellColor(UIColor(red: 61/255, green: 123/255, blue: 99/255, alpha: 1.0), fontColor: UIColor.white) // green color
         
@@ -82,7 +85,7 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
         // Create Children Cells
         for child in children {
             
-            let newCell = createOrgChartCell(frame, root: root, childData: child)
+            let newCell = _createOrgChartCell(frame, root: root, childData: child)
             newCell.delegate = self
             newCell.parent = root
             willAppendCell.append(newCell)
@@ -112,7 +115,7 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
     // MARK: - Private functions
     
     // Create orgchart cell view
-    private func createOrgChartCell(_ frame: CGRect, root: OrgChartCell?, childData: OrgChartData) ->OrgChartCell {
+    private func _createOrgChartCell(_ frame: CGRect, root: OrgChartCell?, childData: OrgChartData) ->OrgChartCell {
         return OrgChartCell(frame: frame, userUdid: childData.udid, userName: childData.name, userPosition: childData.position, userCompany: childData.company, userParent: root)
     }
 }
