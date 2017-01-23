@@ -134,7 +134,13 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
     
     // Create orgchart cell view
     private func _createOrgChartCell(_ frame: CGRect, root: OrgChartCell?, childData: OrgChartData) ->OrgChartCell {
-        return OrgChartCell(frame: frame, userUdid: childData.udid, userName: childData.name, userPosition: childData.position, userCompany: childData.company, userParent: root)
+        
+        return OrgChartCell(frame: frame,
+                            userUdid: childData.udid,
+                            userName: childData.name,
+                            userPosition: childData.position,
+                            userCompany: childData.company,
+                            userParent: root)
     }
 }
 
