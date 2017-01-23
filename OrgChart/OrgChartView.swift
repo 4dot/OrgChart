@@ -23,7 +23,7 @@ let ORGCHART_MIN_SCALE: CGFloat = 1.0
 class OrgChartView: UIView {
     
     // for update all children cells
-    var _orgChartCells: [OrgChartCell] = []
+    var orgChartCells: [OrgChartCell] = []
     
     // for pinch, pan
     var _scale: CGFloat = 1.0
@@ -72,12 +72,12 @@ class OrgChartView: UIView {
         // Insert Children Cells to ScrollView
         for (index, child) in children.enumerated() {
             
-            // attach Subview
-            scrollView.addSubview(child)
-            _orgChartCells.append(child)
+            // save reference
+            orgChartCells.append(child)
             
             child.myStack = stackView
             
+            // add child cell
             stackView.addArrangedSubview(child)
             child.stackIndex = index
         }
@@ -162,7 +162,7 @@ class OrgChartView: UIView {
         // Loop all of Cells
         let DEFAULTCELL_INDENT: CGFloat = 10.0
         
-        for case let childCell in _orgChartCells {
+        for childCell in orgChartCells {
             
             // Check existing of parent and Hidden cell
             guard let parent = childCell.parent,

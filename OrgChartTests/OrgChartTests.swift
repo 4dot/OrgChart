@@ -33,15 +33,38 @@ class OrgChartTests: XCTestCase {
         }
     }
     
-    // Test for loading .json file
+    // Test for loading .json file and Check Data Validation
     
     func testOrgChartData() {
         
         // loading .json file
-        XCTAssertNil(orgChartVC?.orgChart, "OrgChart.json file couldn't be load")
+        orgChartVC?.orgChart = OrgChartData.loadOrgChartData("OrgChart")
         
-        // check incorrect data
+        XCTAssert(orgChartVC?.orgChart != nil, "OrgChart.json file couldn't be load")
         
-        // check duplicated guid
+        
+        // Check Data Validation
+        
+        if let rootCellData = orgChartVC?.orgChart {
+            
+            var allCellDatas:[OrgChartData] = [rootCellData]
+            var idx = 0
+            
+            // Collect all cell datas
+            while idx < allCellDatas.count {
+                allCellDatas += allCellDatas[idx].children
+                idx += 1
+            }
+            
+            NSLog("Total Cell's count is \(allCellDatas.count)")
+            
+            // Get a duplicate udids
+            
+            let duplicates = Array(Set(allCellDatas.filter({ (data) -> Bool in
+                allCellDatas.filter( {$0 == data }).count > 1
+            })))
+            
+            XCTAssert(duplicates.count <= 0, "Detacted duplicate datas.")
+        }
     }
 }

@@ -217,7 +217,7 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="_orgChartView" destination="rax-nW-4lf" id="MCA-Be-ix3"/>
+                        <outlet property="orgChartView" destination="rax-nW-4lf" id="Ofk-hX-Jpo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="idW-gN-Kea" userLabel="First Responder" sceneMemberID="firstResponder"/>

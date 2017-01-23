@@ -20,7 +20,7 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
     
     
     // OrgChart View
-    @IBOutlet var _orgChartView: OrgChartView!
+    @IBOutlet var orgChartView: OrgChartView!
     
     
     // MARK: - Override functions
@@ -43,22 +43,22 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
         rootCell.delegate = self
         rootCell.setCellColor(UIColor(red: 61/255, green: 123/255, blue: 99/255, alpha: 1.0), fontColor: UIColor.white) // green color
         
-        _orgChartView.scrollView.addSubview(rootCell)
+        orgChartView.scrollView.addSubview(rootCell)
         
         // Create root stack view
         let rootStack = OrgChartView.createStackView(.vertical)
         rootStack.addArrangedSubview(rootCell)
         
         // Attach stackview into the OrgChartViewController
-        _orgChartView.scrollView.addSubview(rootStack)
+        orgChartView.scrollView.addSubview(rootStack)
         rootCell.myStack = rootStack
         
         // Save reference to root cell
-        _orgChartView.rootCell = rootCell;
+        orgChartView.rootCell = rootCell;
         
         // Set position of OrgChart Root StackView
-        rootStack.centerXAnchor.constraint(equalTo: _orgChartView.scrollView.centerXAnchor).isActive = true
-        rootStack.topAnchor.constraint(equalTo: _orgChartView.scrollView.topAnchor, constant: 100).isActive = true
+        rootStack.centerXAnchor.constraint(equalTo: orgChartView.scrollView.centerXAnchor).isActive = true
+        rootStack.topAnchor.constraint(equalTo: orgChartView.scrollView.topAnchor, constant: 100).isActive = true
         
         // Add First Children
         addChildren(rootCell, children: orgChart.children, frame: cellFrame)
@@ -109,7 +109,7 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
         root?.childLinkType = lineLinkType
         
         // Attach child cell into chartView
-        _orgChartView.insertChildren(root, children: willAppendCell)
+        orgChartView.insertChildren(root, children: willAppendCell)
     }
     
     // MARK: - Private functions
@@ -151,7 +151,7 @@ extension OrgChartViewController {
                 }
                 
                 // Update view size
-                strongSelf._orgChartView.updateScrollViewSize()
+                strongSelf.orgChartView.updateScrollViewSize()
             })
         }
         else {

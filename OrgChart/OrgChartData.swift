@@ -13,7 +13,7 @@ import UIKit
 // OrgChart Data Model class
 //
 
-class OrgChartData {
+class OrgChartData : Equatable, Hashable {
     
     // MARK: - Member variables
     
@@ -22,6 +22,19 @@ class OrgChartData {
     var position: String?
     var company: String?
     var children: [OrgChartData] = []
+    
+    // for compare
+    var hashValue: Int {
+        get {
+            return udid.hashValue
+        }
+    }
+    
+    // MARK: compare functions
+    
+    static func == (lhs: OrgChartData, rhs: OrgChartData) -> Bool {
+        return lhs.udid == rhs.udid
+    }
     
     // MARK: - Class (Static) function
     
