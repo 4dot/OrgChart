@@ -56,8 +56,8 @@ class OrgChartCell: UIView {
     weak var parent: OrgChartCell?
     
     // Show/Hide
-    var myStack: UIStackView!
-    var childStack: UIStackView?
+    weak var myStack: UIStackView!
+    weak var childStack: UIStackView?
     
     // My index of StackView
     var stackIndex: NSInteger!
