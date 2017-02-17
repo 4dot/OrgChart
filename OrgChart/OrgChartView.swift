@@ -99,9 +99,13 @@ class OrgChartView: UIView {
             stackView.addArrangedSubview(child)
             child.stackIndex = index
         }
+        
         var targetStack: UIStackView?
         
+        // Child Cell can insert to Vertical stack view only
+        // Create Vertical stackview when insert to Horizontal stack of parent cell
         if(validParent.myStack.axis == .horizontal) {
+            
             let vertStackView = OrgChartView.createStackView(.vertical)
             scrollView.addSubview(vertStackView)
             
@@ -118,6 +122,7 @@ class OrgChartView: UIView {
             targetStack = vertStackView
         }
         else {
+            // Direct insert Child Cell to parent vertical stack view
             // insert stackview to end of parent's stackview
             validParent.myStack.insertArrangedSubview(stackView, at: validParent.myStack.arrangedSubviews.count)
             
@@ -126,18 +131,21 @@ class OrgChartView: UIView {
             
         }
         
-        // Adding animation
-        UIView.animate(withDuration: 0.25, animations: {
-            // stackview animation
-            targetStack!.layoutIfNeeded()
-            self.setNeedsDisplay()
-        }, completion: { [unowned self] (finished: Bool) -> Void in
-            // change view size
-            self.updateScrollViewSize()
-        })
-        
         // save children's stackview
         validParent.childStack = stackView
+        
+        // Adding animation
+        UIView.animate(withDuration: 0.25, animations: { [weak self] in
+            
+            // update UI
+            targetStack!.layoutIfNeeded()
+            
+            self?.setNeedsDisplay()
+        }, completion: { [weak self] (finished: Bool) -> Void in
+            
+            // update view size
+            self?.updateScrollViewSize()
+        })
     }
     
     // Update scroll view size when zoom in/out
@@ -166,6 +174,7 @@ class OrgChartView: UIView {
         
         scrollView.isScrollEnabled = bNeedScroll
         scrollView.contentSize = contentSize
+        
         let leftInset = (contentSize.width - self.frame.size.width)/2
         let topInset = (_scaleFactor != 1.0) ? abs(rootStackFrame.origin.y) : 0
         
@@ -182,7 +191,7 @@ class OrgChartView: UIView {
         
         for childCell in orgChartCells {
             
-            // Check existing of parent and Hidden cell
+            // Check existing of parent and is cell Hidden
             guard let parent = childCell.parent,
                   childCell.isHidden == false else {
                 continue
@@ -211,7 +220,7 @@ class OrgChartView: UIView {
                 path.addLine(to: parentPos)
             }
             else {
-                // Draw Child's Left side to Parent's Bottom
+                // Draw line Child's Left to Parent's Bottom
                 if parent.childLinkType == .leftBottom {
                     let nextPos1: CGPoint = CGPoint(x: childPos.x - DEFAULTCELL_INDENT, y: childPos.y)
                     let nextPos2: CGPoint = CGPoint(x: nextPos1.x, y: parentPos.y + DEFAULTCELL_INDENT)
@@ -240,7 +249,7 @@ class OrgChartView: UIView {
                     
                 }
                 else {
-                    // Draw Child's Top side to Parent's Bottom
+                    // Draw line Child's Top to Parent's Bottom
                     let nextPos1: CGPoint = CGPoint(x: childPos.x, y: parentPos.y + (childPos.y - parentPos.y)/2)
                     let nextPos2: CGPoint = CGPoint(x: parentPos.x, y: nextPos1.y)
                     

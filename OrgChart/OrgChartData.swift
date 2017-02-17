@@ -48,7 +48,7 @@ class OrgChartData : Equatable, Hashable {
         }
     }
     
-    // MARK: compare functions
+    // MARK: - compare functions
     
     static func == (lhs: OrgChartData, rhs: OrgChartData) -> Bool {
         return lhs.udid == rhs.udid
