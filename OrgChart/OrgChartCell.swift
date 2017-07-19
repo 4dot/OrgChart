@@ -29,7 +29,7 @@ import UIKit
 // Protocols
 
 protocol OrgChartCellDelegate : class {
-    func cellExtend(_ parent:OrgChartCell, udid:String, bExtend:Bool)
+    func cellExpand(_ parent:OrgChartCell, udid:String, isExpand:Bool)
 }
 
 
@@ -74,7 +74,7 @@ class OrgChartCell: UIView {
     
     // MARK: - Initialize
     
-    init(frame: CGRect, userUdid: String, userName: String, userPosition: String?, userCompany: String?, userParent:OrgChartCell?) {
+    init(frame: CGRect, userUdid: String, userName: String, userPosition: String?, userCompany: String?, userParent: OrgChartCell?) {
         
         super.init(frame: frame)
         
@@ -129,10 +129,10 @@ class OrgChartCell: UIView {
         //topLink.alpha = 0.5
         baseView.addSubview(topLink)
         
-        // bottom link button, extend button
+        // bottom link button, expand button
         bottomLink = UIButton(frame: linkBtnRect)
         bottomLink.center = CGPoint(x: cellRect.width/2, y: baseView.frame.height)
-        bottomLink.addTarget(self, action: #selector(OrgChartCell.extend(_:)), for: .touchUpInside)
+        bottomLink.addTarget(self, action: #selector(expand(_:)), for: .touchUpInside)
         bottomLink.setImage(UIImage(named: "plus"), for: UIControlState())
         baseView.addSubview(bottomLink)
         
@@ -153,7 +153,7 @@ class OrgChartCell: UIView {
     }
     
     // MARK: - override
-    // Hit Test of outside extend button on the baseView
+    // Hit Test of outside expand button on the baseView
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         
         let translatedPoint = bottomLink.convert(point, from: self)
@@ -188,10 +188,10 @@ class OrgChartCell: UIView {
     // MARK: - button event
     
     // when pressed show/hide button
-    func extend(_ sender: UIButton!) {
+    func expand(_ sender: UIButton!) {
         
         let hidden = childStack?.isHidden
-        delegate?.cellExtend(self, udid:udid, bExtend: (hidden == nil) ? true : hidden!)
+        delegate?.cellExpand(self, udid:udid, isExpand: (hidden == nil) ? true : hidden!)
         
         bottomLink.setImage((hidden == false) ? UIImage(named: "plus") : UIImage(named: "minus"), for: .normal)
     }    

@@ -152,28 +152,28 @@ extension OrgChartViewController {
     
     // MARK: - OrgChartCellDelegate
     
-    func cellExtend(_ parent:OrgChartCell, udid: String, bExtend: Bool) {
+    func cellExpand(_ parent:OrgChartCell, udid: String, isExpand: Bool) {
         
         if parent.childStack == nil {
-            if bExtend == true {
+            if isExpand == true {
                 
                 // Find parent
                 if let children = orgChart.getChildren(orgChart, udid: udid) {
                     
-                    // Extend tree, Add Child cells
+                    // Expand tree, Add Child cells
                     addChildren(parent, children: children, frame: parent.frame)
                 }
             }
         } else {
             
-            // Extend OrgChart with Animation
+            // Expand OrgChart with Animation
             UIView.animate(withDuration: 0.25, animations: { [weak self] in
                 
                 guard let strongSelf = self else {
                     return
                 }
                 
-                parent.childStack?.isHidden = !bExtend
+                parent.childStack?.isHidden = !isExpand
                 
                 // Update display
                 strongSelf.view.setNeedsDisplay()
