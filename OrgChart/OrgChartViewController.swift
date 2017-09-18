@@ -28,6 +28,7 @@ import UIKit
 
 
 
+
 // Default cell size
 // -----------------------------------------------------------
 let CELLFRAME = CGRect(x: 0, y: 0, width: 170, height: 80)
