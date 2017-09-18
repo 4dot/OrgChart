@@ -1,5 +1,5 @@
-language: objective-c #1
-osx_image: xcode8.3 #2
-xcode_project: OrgChart.xcodeproj #3
-xcode_scheme: OrgChart #4
-xcode_sdk: ipadsimulator10.3 #5
+language: swift
+osx_image: xcode8.3
+xcode_project: OrgChart.xcodeproj
+xcode_scheme: OrgChart
+xcode_sdk: ipadsimulator10.3
