@@ -10,4 +10,4 @@
 
 # StackView Layout
 
-![ScreenShot](https://raw.github.com/4dot/OrgChart/master/docs/stackview_layout.jpg)
+![ScreenShot](https://raw.github.com/4dot/OrgChart/master/docs/orgchart_stackview.png)
