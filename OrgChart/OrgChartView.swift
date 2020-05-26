@@ -283,7 +283,7 @@ class OrgChartView: UIView {
     @IBAction func pinchDetected(_ sender: UIPinchGestureRecognizer) {
         
         // start
-        if sender.state == UIGestureRecognizerState.began {
+        if sender.state == UIGestureRecognizer.State.began {
             sender.scale = self.transform.a
         }
         
@@ -302,7 +302,7 @@ class OrgChartView: UIView {
         rootCell?.myStack.transform = CGAffineTransform(scaleX: scale, y: scale)
         
         // gesture end
-        if sender.state == UIGestureRecognizerState.ended {
+        if sender.state == UIGestureRecognizer.State.ended {
             if sender.scale < ORGCHART_MIN_SCALE {
                 scale = ORGCHART_MIN_SCALE
             }
@@ -335,7 +335,7 @@ class OrgChartView: UIView {
     }
     
     @IBAction func panDetected(_ sender: UIPanGestureRecognizer) {
-        self.bringSubview(toFront: sender.view!)
+        self.bringSubviewToFront(sender.view!)
     }
 }
 
@@ -346,7 +346,7 @@ extension OrgChartView {
     
     // MARK: - Class member func. 
     // create default stackview
-    class func createStackView(_ axis: UILayoutConstraintAxis) ->UIStackView {
+    class func createStackView(_ axis: NSLayoutConstraint.Axis) ->UIStackView {
         let stackView = UIStackView()
         stackView.axis = axis
         stackView.distribution = .fill
