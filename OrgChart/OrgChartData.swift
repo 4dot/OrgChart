@@ -42,10 +42,8 @@ class OrgChartData : Equatable, Hashable {
     var children: [OrgChartData] = []
     
     // for compare
-    var hashValue: Int {
-        get {
-            return udid.hashValue
-        }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(udid)
     }
     
     // MARK: - compare functions

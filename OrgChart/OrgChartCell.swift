@@ -28,7 +28,7 @@ import UIKit
 
 // Protocols
 
-protocol OrgChartCellDelegate : class {
+protocol OrgChartCellDelegate : NSObjectProtocol {
     func cellExpand(_ parent:OrgChartCell, udid:String, isExpand:Bool)
 }
 
@@ -133,7 +133,7 @@ class OrgChartCell: UIView {
         bottomLink = UIButton(frame: linkBtnRect)
         bottomLink.center = CGPoint(x: cellRect.width/2, y: baseView.frame.height)
         bottomLink.addTarget(self, action: #selector(expand(_:)), for: .touchUpInside)
-        bottomLink.setImage(UIImage(named: "plus"), for: UIControlState())
+        bottomLink.setImage(UIImage(named: "plus"), for: .normal)
         baseView.addSubview(bottomLink)
         
         // left link
@@ -188,7 +188,7 @@ class OrgChartCell: UIView {
     // MARK: - button event
     
     // when pressed show/hide button
-    func expand(_ sender: UIButton!) {
+    @objc func expand(_ sender: UIButton!) {
         
         let hidden = childStack?.isHidden
         delegate?.cellExpand(self, udid:udid, isExpand: (hidden == nil) ? true : hidden!)

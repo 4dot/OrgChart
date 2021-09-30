@@ -100,7 +100,7 @@ class OrgChartCell: UIView {
         // bottom link button, expand button
         bottomLink = UIButton(frame: linkBtnRect)
         bottomLink.center = CGPoint(x: cellRect.width/2, y: baseView.frame.height)
-        bottomLink.setImage(UIImage(named: "plus"), for: UIControlState())
+        bottomLink.setImage(UIImage(named: "plus"), for: .normal)
         topLink.backgroundColor = .red
         baseView.addSubview(bottomLink)
         
