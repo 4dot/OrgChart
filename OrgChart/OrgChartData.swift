@@ -54,7 +54,7 @@ class OrgChartData : Equatable, Hashable {
     
     // MARK: - Class (Static) function
     
-    class func loadOrgChartData(_ fileName: String) -> OrgChartData! {
+    class func loadOrgChartData(_ fileName: String) throws -> OrgChartData {
         
         // Load json data from local resource
         
@@ -74,11 +74,10 @@ class OrgChartData : Equatable, Hashable {
             // Create chart data
             return OrgChartData(udid: udid!, name: name!, position: position, company: company, children: children)
             
-        } catch {
+        } catch (let error) {
             print("Error serializing JSON: \(error)")
+            throw error
         }
-        
-        return nil
     }
     
     // MARK: - Init

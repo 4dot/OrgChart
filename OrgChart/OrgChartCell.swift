@@ -29,7 +29,7 @@ import UIKit
 // Protocols
 
 protocol OrgChartCellDelegate : NSObjectProtocol {
-    func cellExpand(_ parent:OrgChartCell, udid:String, isExpand:Bool)
+    func cellExpand(_ parent: OrgChartCell, udid: String, isExpand: Bool)
 }
 
 

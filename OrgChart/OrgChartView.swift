@@ -26,7 +26,7 @@
 
 import UIKit
 
-enum LinkType{
+enum LinkType {
     case topBottom
     case leftBottom
 }

@@ -37,11 +37,11 @@ let CELLFRAME = CGRect(x: 0, y: 0, width: 170, height: 80)
 //
 // OrgChartViewController Class
 //
-class OrgChartViewController: UIViewController, OrgChartCellDelegate {
+class OrgChartViewController: UIViewController {
 
     // OrgChart Data, Load local json file
     lazy var orgChart: OrgChartData = {
-        OrgChartData.loadOrgChartData("OrgChart")
+        try! OrgChartData.loadOrgChartData("OrgChart")
     }()
     
     
@@ -149,7 +149,7 @@ class OrgChartViewController: UIViewController, OrgChartCellDelegate {
 //
 // OrgChartViewController extension for OrgChartCellDelegate Protocol
 //
-extension OrgChartViewController {
+extension OrgChartViewController : OrgChartCellDelegate {
     
     // MARK: - OrgChartCellDelegate
     
