@@ -28,7 +28,7 @@ import UIKit
 
 // Protocols
 
-protocol OrgChartCellDelegate : class {
+protocol OrgChartCellDelegate : AnyObject {
     func cellExpand(_ parent:OrgChartCell, udid:String, isExpand:Bool)
 }
 
@@ -38,20 +38,19 @@ protocol OrgChartCellDelegate : class {
 //
 class OrgChartCell: UIView {
     
-    // base view
-    let baseView:UIView = UIView()
+    var udid: String = ""
     
-    // Organization Data
-    var udid: String = String()
+    // UIs
+    var baseView: UIView!
     var name: UILabel!
     var position: UILabel!
     var company: UILabel!
     
-    // Link line
+    // Connection line & positoin mark buttons
+    var connectLine: CAShapeLayer!
     var topLink: UIButton!
     var bottomLink: UIButton!
     var leftLink: UIButton!
-    var connectLine: CAShapeLayer!
     
     weak var parent: OrgChartCell?
     
@@ -59,36 +58,40 @@ class OrgChartCell: UIView {
     weak var myStack: UIStackView!
     weak var childStack: UIStackView?
     
-    // My index of StackView
-    var stackIndex: NSInteger!
+    // StackView index
+    var stackIndex: Int = 0
     
     // Connection Line Type
     var childLinkType: LinkType = .topBottom
     
     // Cell indent, Default 10 pixels
-    var cellIndent:CGFloat = 10
+    var cellIndent = AppConstants.cllIndent
     
     // delegate
-    weak var delegate:OrgChartCellDelegate?
+    weak var delegate: OrgChartCellDelegate?
     
     
     // MARK: - Initialize
     
     init(frame: CGRect, userUdid: String, userName: String, userPosition: String?, userCompany: String?, userParent: OrgChartCell?) {
-        
         super.init(frame: frame)
+        
+        baseView = UIView()
         
         clipsToBounds = false
         backgroundColor = UIColor.clear
         
         // Set parent, set default my stack index
+        
+        // Create connection line layer
         connectLine = CAShapeLayer()
         layer.addSublayer(connectLine)
         
         parent = userParent
         stackIndex = 0
+        udid = userUdid
         
-        let cellRect = CGRect(x: cellIndent, y: cellIndent, width: frame.width-cellIndent*2, height: frame.height-(cellIndent*2))
+        let cellRect = CGRect(x: cellIndent, y: cellIndent, width: frame.width - cellIndent * 2, height: frame.height - (cellIndent * 2))
         
         // create base view
         baseView.frame = cellRect
@@ -98,23 +101,21 @@ class OrgChartCell: UIView {
         baseView.layer.borderWidth = 1.5
         addSubview(baseView)
         
-        // create controls
-        // name, position, company label
-        udid = userUdid
-        name = UILabel(frame: CGRect(x: 5, y: 2, width: cellRect.width-10, height: cellRect.height * 10/26))
-        name.font = UIFont(name:"HelveticaNeue", size: 10.0)
+        // create display labels(name, position, company)
+        name = UILabel(frame: CGRect(x: 5, y: 2, width: cellRect.width - 10, height: cellRect.height * 10 / 26))
+        name.font = AppConstants.cellNameFont
         name.text = userName
         name.textAlignment = .center
         baseView.addSubview(name)
         
-        position = UILabel(frame: CGRect(x: 5, y: cellRect.height*(8/26), width: cellRect.width-10, height: cellRect.height * 8/26))
-        position.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
+        position = UILabel(frame: CGRect(x: 5, y: cellRect.height*(8 / 26), width: cellRect.width - 10, height: cellRect.height * 8 / 26))
+        position.font = AppConstants.cellSubFont
         position.text = userPosition ?? ""
         position.textAlignment = .center
         baseView.addSubview(position)
         
-        company = UILabel(frame: CGRect(x: 5, y: cellRect.height*(14/26), width: cellRect.width-10, height: cellRect.height * 8/26))
-        company.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
+        company = UILabel(frame: CGRect(x: 5, y: cellRect.height*(14 / 26), width: cellRect.width - 10, height: cellRect.height * 8 / 26))
+        company.font = AppConstants.cellSubFont
         company.text = userCompany ?? ""
         company.textAlignment = .center
         baseView.addSubview(company)
@@ -124,28 +125,28 @@ class OrgChartCell: UIView {
         
         // top link button position
         topLink = UIButton(frame: linkBtnRect)
-        topLink.center = CGPoint(x: cellRect.width/2, y: 0)
-        topLink.backgroundColor = .clear//.redColor()
-        //topLink.alpha = 0.5
+        topLink.center = CGPoint(x: cellRect.width / 2, y: 0)
+        topLink.backgroundColor = .clear
         baseView.addSubview(topLink)
         
         // bottom link button, expand button
         bottomLink = UIButton(frame: linkBtnRect)
-        bottomLink.center = CGPoint(x: cellRect.width/2, y: baseView.frame.height)
+        bottomLink.center = CGPoint(x: cellRect.width / 2, y: baseView.frame.height)
         bottomLink.addTarget(self, action: #selector(expand(_:)), for: .touchUpInside)
-        bottomLink.setImage(UIImage(named: "plus"), for: UIControlState())
+        bottomLink.setImage(UIImage(named: "plus"), for: .normal)
         baseView.addSubview(bottomLink)
         
         // left link
         leftLink = UIButton(frame: linkBtnRect)
-        leftLink.center = CGPoint(x: 0, y: cellRect.height/2)
-        leftLink.backgroundColor = .clear//.greenColor()
-        //leftLink.alpha = 0.5
+        leftLink.center = CGPoint(x: 0, y: cellRect.height / 2)
+        leftLink.backgroundColor = .clear
         baseView.addSubview(leftLink)
         
         // Set view size
-        heightAnchor.constraint(equalToConstant: frame.height).isActive = true
-        widthAnchor.constraint(equalToConstant: frame.width).isActive = true
+        NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: frame.height),
+            widthAnchor.constraint(equalToConstant: frame.width)
+        ])
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -156,19 +157,19 @@ class OrgChartCell: UIView {
     // Hit Test of outside expand button on the baseView
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         
-        let translatedPoint = bottomLink.convert(point, from: self)
+        let convertedPoint = bottomLink.convert(point, from: self)
         
-        if (bottomLink.bounds.contains(translatedPoint)) {
-            return bottomLink.hitTest(translatedPoint, with: event)
+        if (bottomLink.bounds.contains(convertedPoint)) {
+            return bottomLink.hitTest(convertedPoint, with: event)
         }
+        
         return super.hitTest(point, with: event)
     }
     
-    // MARK: - Public functions
+    // MARK: - Public
     
     // set baseView's indent
-    func setIndent(_ indent: CGFloat) ->Void {
-        
+    func setIndent(_ indent: CGFloat) {
         var baseViewRc = baseView.frame
         baseViewRc.origin.x = indent
         
@@ -176,23 +177,21 @@ class OrgChartCell: UIView {
         cellIndent = indent
     }
     
-    func setCellColor(_ bgColor: UIColor, fontColor: UIColor) ->Void {
-        
-        // change baseView's  bg color and Font color
+    func setCellColor(_ bgColor: UIColor, fontColor: UIColor) {
+        // Update BaseView's bg color and Font color
         baseView.backgroundColor = bgColor
         name.textColor = fontColor
         position.textColor = fontColor
         company.textColor = fontColor
     }
     
-    // MARK: - button event
+    // MARK: - Expand Button event
     
-    // when pressed show/hide button
-    func expand(_ sender: UIButton!) {
+    // When pressed show/hide button
+    @objc func expand(_ sender: UIButton!) {
+        let hidden = childStack?.isHidden ?? true
         
-        let hidden = childStack?.isHidden
-        delegate?.cellExpand(self, udid:udid, isExpand: (hidden == nil) ? true : hidden!)
-        
-        bottomLink.setImage((hidden == false) ? UIImage(named: "plus") : UIImage(named: "minus"), for: .normal)
+        delegate?.cellExpand(self, udid: udid, isExpand: hidden)
+        bottomLink.setImage(hidden ? UIImage(named: "minus") : UIImage(named: "plus"), for: .normal)
     }    
 }

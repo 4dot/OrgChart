@@ -54,35 +54,6 @@ class OrgChartData : Equatable, Hashable {
         return lhs.udid == rhs.udid
     }
     
-    // MARK: - Class (Static) function
-    
-    class func loadOrgChartData(_ fileName: String) -> OrgChartData! {
-        
-        // Load json data from local resource
-        
-        let url = Bundle.main.url(forResource: fileName, withExtension: "json")
-        let data = try? Data(contentsOf: url!)
-        
-        do {
-            let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:AnyObject]
-            
-            // Load Root Cell's data
-            let udid = json["udid"] as? String
-            let name = json["name"] as? String
-            let company = json["company"] as? String
-            let position = json["position"] as? String
-            let children = json["children"] as? [[String: AnyObject]]
-            
-            // Create chart data
-            return OrgChartData(udid: udid!, name: name!, position: position, company: company, children: children)
-            
-        } catch {
-            print("Error serializing JSON: \(error)")
-        }
-        
-        return nil
-    }
-    
     // MARK: - Init
     
     init(udid: String, name: String, position: String?, company: String?, children: [[String: AnyObject]]?) {
@@ -97,12 +68,12 @@ class OrgChartData : Equatable, Hashable {
         // Load Children
         if let children = children {
             for child in children {
-                addChild(self, dictionary: child as NSDictionary)
+                addChild(self, dictionary: child)
             }
         }
     }
     
-    convenience init(dictionary: NSDictionary) {
+    convenience init(dictionary: [String: AnyObject]) {
         
         let udid = (dictionary["udid"] as? String) ?? ""
         let name = dictionary["name"] as? String ?? ""
@@ -115,7 +86,7 @@ class OrgChartData : Equatable, Hashable {
     
     // MARK: - Public functions
     
-    func addChild(_ parent:OrgChartData, dictionary:NSDictionary) {
+    func addChild(_ parent: OrgChartData, dictionary: [String: AnyObject]) {
         
         // Create ChildData
         let childData = OrgChartData(dictionary: dictionary)
@@ -123,14 +94,14 @@ class OrgChartData : Equatable, Hashable {
     }
     
     // Find target's children recursively
-    func getChildren(_ root:OrgChartData, udid:String) ->[OrgChartData]? {
+    func getChildren(_ parent: OrgChartData, udid: String) -> [OrgChartData]? {
         
-        if root.udid == udid {
-            return root.children
+        if parent.udid == udid {
+            return parent.children
         }
         
-        for child in root.children {
-            if let children:[OrgChartData] = getChildren(child, udid: udid) {
+        for child in parent.children {
+            if let children = getChildren(child, udid: udid) {
                 return children
             }
         }
@@ -139,4 +110,45 @@ class OrgChartData : Equatable, Hashable {
     }
 }
 
-
+extension OrgChartData {
+    
+    // MARK: - Class function
+    
+    enum DataError : Error {
+        case FileError
+        case ConvertError
+    }
+    
+    class func loadOrgChartData(_ fileName: String) -> OrgChartData? {
+        // Load json data from local resource
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+            print("Error: can't find file. \(fileName)")
+            return nil
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : AnyObject]
+            
+            // Load Root cell data
+            let udid = json["udid"] as? String
+            let name = json["name"] as? String
+            let company = json["company"] as? String
+            let position = json["position"] as? String
+            let children = json["children"] as? [[String : AnyObject]]
+            
+            // Create chart data
+            return OrgChartData(udid: udid!, name: name!, position: position, company: company, children: children)
+            
+        } catch DataError.FileError {
+            print("Error: fileData")
+            return nil
+        } catch DataError.ConvertError {
+            print("Error: serializing JSON")
+            return nil
+        } catch {
+            print("Error: \(error)")
+        }
+        
+        return nil
+    }
+}
