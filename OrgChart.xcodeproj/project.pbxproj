@@ -8,17 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		6934ED9327DEE05F00499891 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6934ED9227DEE05F00499891 /* AppConstants.swift */; };
-		6934ED9627DF000B00499891 /* UIAlterController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6934ED9527DF000B00499891 /* UIAlterController+Extension.swift */; };
+		693DB76127E2D6F800BCEA1C /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB75D27E2D6F800BCEA1C /* NetworkClient.swift */; };
+		693DB76227E2D6F800BCEA1C /* URLQueryItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB75E27E2D6F800BCEA1C /* URLQueryItemFactory.swift */; };
+		693DB76327E2D6F800BCEA1C /* JSONURLRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB75F27E2D6F800BCEA1C /* JSONURLRequestFactory.swift */; };
+		693DB76427E2D6F800BCEA1C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB76027E2D6F800BCEA1C /* NetworkManager.swift */; };
+		693DB77027E2D83B00BCEA1C /* OrgChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB76A27E2D83B00BCEA1C /* OrgChartViewController.swift */; };
+		693DB77127E2D83B00BCEA1C /* OrgChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB76C27E2D83B00BCEA1C /* OrgChartModel.swift */; };
+		693DB77227E2D83B00BCEA1C /* OrgChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB76E27E2D83B00BCEA1C /* OrgChartCell.swift */; };
+		693DB77327E2D83B00BCEA1C /* OrgChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB76F27E2D83B00BCEA1C /* OrgChartView.swift */; };
+		693DB77727E2D86700BCEA1C /* UIAlterController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB77527E2D86700BCEA1C /* UIAlterController+Extension.swift */; };
+		693DB77827E2D86700BCEA1C /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB77627E2D86700BCEA1C /* Dictionary+Extension.swift */; };
+		693DB77B27E2D90500BCEA1C /* ChartNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB77927E2D90500BCEA1C /* ChartNetworkClient.swift */; };
+		693DB77C27E2D90500BCEA1C /* ChartNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB77A27E2D90500BCEA1C /* ChartNetworkManager.swift */; };
+		693DB77E27E2E4E200BCEA1C /* OrgChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB77D27E2E4E200BCEA1C /* OrgChartViewModel.swift */; };
+		693DB78027E2F2E000BCEA1C /* OrgChartView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB77F27E2F2E000BCEA1C /* OrgChartView+Update.swift */; };
+		693DB78227E2FBA000BCEA1C /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DB78127E2FBA000BCEA1C /* UIApplication+Extension.swift */; };
 		CB542FE81C99B6BA00012B2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB542FE71C99B6BA00012B2F /* AppDelegate.swift */; };
-		CB542FEA1C99B6BA00012B2F /* OrgChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB542FE91C99B6BA00012B2F /* OrgChartViewController.swift */; };
 		CB542FED1C99B6BA00012B2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB542FEB1C99B6BA00012B2F /* Main.storyboard */; };
 		CB542FEF1C99B6BA00012B2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB542FEE1C99B6BA00012B2F /* Assets.xcassets */; };
 		CB542FF21C99B6BA00012B2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB542FF01C99B6BA00012B2F /* LaunchScreen.storyboard */; };
 		CB542FFD1C99B6BA00012B2F /* OrgChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB542FFC1C99B6BA00012B2F /* OrgChartTests.swift */; };
 		CB5430081C99B6BA00012B2F /* OrgChartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5430071C99B6BA00012B2F /* OrgChartUITests.swift */; };
-		CB5430161C99B81100012B2F /* OrgChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5430151C99B81100012B2F /* OrgChartCell.swift */; };
-		CB5430181C99F33300012B2F /* OrgChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5430171C99F33300012B2F /* OrgChartData.swift */; };
-		CBBB5E0B1C9AE44100990B92 /* OrgChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBB5E0A1C9AE44100990B92 /* OrgChartView.swift */; };
 		CBBB5E221C9C79CF00990B92 /* OrgChart.json in Resources */ = {isa = PBXBuildFile; fileRef = CBBB5E211C9C79CF00990B92 /* OrgChart.json */; };
 /* End PBXBuildFile section */
 
@@ -41,11 +51,24 @@
 
 /* Begin PBXFileReference section */
 		6934ED9227DEE05F00499891 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
-		6934ED9527DF000B00499891 /* UIAlterController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlterController+Extension.swift"; sourceTree = "<group>"; };
-		CB1AF7D41E316BCE00F1E939 /* OrgChart.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = OrgChart.playground; path = OrgChart/OrgChart.playground; sourceTree = "<group>"; };
+		693DB75D27E2D6F800BCEA1C /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		693DB75E27E2D6F800BCEA1C /* URLQueryItemFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLQueryItemFactory.swift; sourceTree = "<group>"; };
+		693DB75F27E2D6F800BCEA1C /* JSONURLRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONURLRequestFactory.swift; sourceTree = "<group>"; };
+		693DB76027E2D6F800BCEA1C /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		693DB76827E2D82800BCEA1C /* OrgChart.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = OrgChart.playground; sourceTree = "<group>"; };
+		693DB76A27E2D83B00BCEA1C /* OrgChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartViewController.swift; sourceTree = "<group>"; };
+		693DB76C27E2D83B00BCEA1C /* OrgChartModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartModel.swift; sourceTree = "<group>"; };
+		693DB76E27E2D83B00BCEA1C /* OrgChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartCell.swift; sourceTree = "<group>"; };
+		693DB76F27E2D83B00BCEA1C /* OrgChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartView.swift; sourceTree = "<group>"; };
+		693DB77527E2D86700BCEA1C /* UIAlterController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlterController+Extension.swift"; sourceTree = "<group>"; };
+		693DB77627E2D86700BCEA1C /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
+		693DB77927E2D90500BCEA1C /* ChartNetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartNetworkClient.swift; sourceTree = "<group>"; };
+		693DB77A27E2D90500BCEA1C /* ChartNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartNetworkManager.swift; sourceTree = "<group>"; };
+		693DB77D27E2E4E200BCEA1C /* OrgChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgChartViewModel.swift; sourceTree = "<group>"; };
+		693DB77F27E2F2E000BCEA1C /* OrgChartView+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrgChartView+Update.swift"; sourceTree = "<group>"; };
+		693DB78127E2FBA000BCEA1C /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		CB542FE41C99B6BA00012B2F /* OrgChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrgChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB542FE71C99B6BA00012B2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CB542FE91C99B6BA00012B2F /* OrgChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgChartViewController.swift; sourceTree = "<group>"; };
 		CB542FEC1C99B6BA00012B2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CB542FEE1C99B6BA00012B2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB542FF11C99B6BA00012B2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -56,9 +79,6 @@
 		CB5430031C99B6BA00012B2F /* OrgChartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrgChartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB5430071C99B6BA00012B2F /* OrgChartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgChartUITests.swift; sourceTree = "<group>"; };
 		CB5430091C99B6BA00012B2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CB5430151C99B81100012B2F /* OrgChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartCell.swift; sourceTree = "<group>"; };
-		CB5430171C99F33300012B2F /* OrgChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartData.swift; sourceTree = "<group>"; };
-		CBBB5E0A1C9AE44100990B92 /* OrgChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartView.swift; sourceTree = "<group>"; };
 		CBBB5E211C9C79CF00990B92 /* OrgChart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OrgChart.json; path = Resources/OrgChart.json; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -87,31 +107,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		109592F81CA63BBD00B16769 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CB5430151C99B81100012B2F /* OrgChartCell.swift */,
-				CBBB5E0A1C9AE44100990B92 /* OrgChartView.swift */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
-		109592F91CA63BC500B16769 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				CB542FE91C99B6BA00012B2F /* OrgChartViewController.swift */,
-			);
-			name = Controllers;
-			sourceTree = "<group>";
-		};
-		109592FA1CA63BCD00B16769 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				CB5430171C99F33300012B2F /* OrgChartData.swift */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
 		6934ED9127DEE00A00499891 /* AppConstants */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,15 +118,77 @@
 		6934ED9427DEFFE500499891 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6934ED9527DF000B00499891 /* UIAlterController+Extension.swift */,
+				693DB75C27E2D6F800BCEA1C /* Network */,
+				693DB77427E2D86700BCEA1C /* Extension */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		693DB75C27E2D6F800BCEA1C /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				693DB75D27E2D6F800BCEA1C /* NetworkClient.swift */,
+				693DB75E27E2D6F800BCEA1C /* URLQueryItemFactory.swift */,
+				693DB75F27E2D6F800BCEA1C /* JSONURLRequestFactory.swift */,
+				693DB76027E2D6F800BCEA1C /* NetworkManager.swift */,
+			);
+			name = Network;
+			path = Utils/Network;
+			sourceTree = "<group>";
+		};
+		693DB76727E2D82800BCEA1C /* Playground */ = {
+			isa = PBXGroup;
+			children = (
+				693DB76827E2D82800BCEA1C /* OrgChart.playground */,
+			);
+			name = Playground;
+			path = OrgChart/Playground;
+			sourceTree = "<group>";
+		};
+		693DB76927E2D83B00BCEA1C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				693DB76A27E2D83B00BCEA1C /* OrgChartViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		693DB76B27E2D83B00BCEA1C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				693DB77D27E2E4E200BCEA1C /* OrgChartViewModel.swift */,
+				693DB76C27E2D83B00BCEA1C /* OrgChartModel.swift */,
+				693DB77927E2D90500BCEA1C /* ChartNetworkClient.swift */,
+				693DB77A27E2D90500BCEA1C /* ChartNetworkManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		693DB76D27E2D83B00BCEA1C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				693DB76E27E2D83B00BCEA1C /* OrgChartCell.swift */,
+				693DB76F27E2D83B00BCEA1C /* OrgChartView.swift */,
+				693DB77F27E2F2E000BCEA1C /* OrgChartView+Update.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		693DB77427E2D86700BCEA1C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				693DB77527E2D86700BCEA1C /* UIAlterController+Extension.swift */,
+				693DB77627E2D86700BCEA1C /* Dictionary+Extension.swift */,
+				693DB78127E2FBA000BCEA1C /* UIApplication+Extension.swift */,
+			);
+			name = Extension;
+			path = Utils/Extension;
 			sourceTree = "<group>";
 		};
 		CB542FDB1C99B6BA00012B2F = {
 			isa = PBXGroup;
 			children = (
-				CB1AF7D41E316BCE00F1E939 /* OrgChart.playground */,
+				693DB76727E2D82800BCEA1C /* Playground */,
 				CB542FE61C99B6BA00012B2F /* OrgChart */,
 				CB542FFB1C99B6BA00012B2F /* OrgChartTests */,
 				CB5430061C99B6BA00012B2F /* OrgChartUITests */,
@@ -153,9 +210,9 @@
 			isa = PBXGroup;
 			children = (
 				CB542FE71C99B6BA00012B2F /* AppDelegate.swift */,
-				109592F91CA63BC500B16769 /* Controllers */,
-				109592F81CA63BBD00B16769 /* Views */,
-				109592FA1CA63BCD00B16769 /* Models */,
+				693DB76927E2D83B00BCEA1C /* Controllers */,
+				693DB76B27E2D83B00BCEA1C /* Models */,
+				693DB76D27E2D83B00BCEA1C /* Views */,
 				CBBB5E121C9C3F1A00990B92 /* Resources */,
 				6934ED9127DEE00A00499891 /* AppConstants */,
 				6934ED9427DEFFE500499891 /* Utils */,
@@ -328,13 +385,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				693DB77E27E2E4E200BCEA1C /* OrgChartViewModel.swift in Sources */,
 				6934ED9327DEE05F00499891 /* AppConstants.swift in Sources */,
-				CB5430181C99F33300012B2F /* OrgChartData.swift in Sources */,
-				CB542FEA1C99B6BA00012B2F /* OrgChartViewController.swift in Sources */,
-				CB5430161C99B81100012B2F /* OrgChartCell.swift in Sources */,
-				CBBB5E0B1C9AE44100990B92 /* OrgChartView.swift in Sources */,
+				693DB78227E2FBA000BCEA1C /* UIApplication+Extension.swift in Sources */,
+				693DB77327E2D83B00BCEA1C /* OrgChartView.swift in Sources */,
+				693DB77127E2D83B00BCEA1C /* OrgChartModel.swift in Sources */,
+				693DB77727E2D86700BCEA1C /* UIAlterController+Extension.swift in Sources */,
+				693DB76427E2D6F800BCEA1C /* NetworkManager.swift in Sources */,
+				693DB76327E2D6F800BCEA1C /* JSONURLRequestFactory.swift in Sources */,
+				693DB78027E2F2E000BCEA1C /* OrgChartView+Update.swift in Sources */,
+				693DB76227E2D6F800BCEA1C /* URLQueryItemFactory.swift in Sources */,
+				693DB77C27E2D90500BCEA1C /* ChartNetworkManager.swift in Sources */,
+				693DB77827E2D86700BCEA1C /* Dictionary+Extension.swift in Sources */,
 				CB542FE81C99B6BA00012B2F /* AppDelegate.swift in Sources */,
-				6934ED9627DF000B00499891 /* UIAlterController+Extension.swift in Sources */,
+				693DB77227E2D83B00BCEA1C /* OrgChartCell.swift in Sources */,
+				693DB76127E2D6F800BCEA1C /* NetworkClient.swift in Sources */,
+				693DB77B27E2D90500BCEA1C /* ChartNetworkClient.swift in Sources */,
+				693DB77027E2D83B00BCEA1C /* OrgChartViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,7 +600,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = optionsgroup.OrgChartTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrgChart.app/OrgChart";
 			};
 			name = Debug;
@@ -546,7 +613,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = optionsgroup.OrgChartTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrgChart.app/OrgChart";
 			};
 			name = Release;
@@ -558,7 +625,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = optionsgroup.OrgChartUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = OrgChart;
 				USES_XCTRUNNER = YES;
 			};
@@ -571,7 +638,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = optionsgroup.OrgChartUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = OrgChart;
 				USES_XCTRUNNER = YES;
 			};

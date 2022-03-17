@@ -27,6 +27,7 @@
 import XCTest
 @testable import OrgChart
 
+
 class OrgChartTests: XCTestCase {
     
     var orgChartVC: OrgChartViewController?
@@ -56,7 +57,7 @@ class OrgChartTests: XCTestCase {
     func testOrgChartData() {
         
         // loading .json file
-        orgChartVC?.orgChart = OrgChartData.loadOrgChartData("OrgChart")
+        orgChartVC?.orgChart = OrgChartModel.loadOrgChartData("OrgChart")
         
         XCTAssert(orgChartVC?.orgChart != nil, "OrgChart.json file couldn't be load")
         
@@ -65,7 +66,7 @@ class OrgChartTests: XCTestCase {
         
         if let rootCellData = orgChartVC?.orgChart {
             
-            var allCellDatas:[OrgChartData] = [rootCellData]
+            var allCellDatas:[OrgChartModel] = [rootCellData]
             var idx = 0
             
             // Collect all cell datas
