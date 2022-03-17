@@ -27,9 +27,11 @@ struct ChartNetworkManager: NetworkManager {
      * @desc Request article List from local Json file
      */
     func requestOrgChart(_ complete: ChartCompletionBlock?) {
-        client.request(method: .get, path: path, parameters: nil, httpBody: nil, complete: { (result: NetworkClientResult<OrgChartModel>) in
-            complete?(result)
-        })
+        DispatchQueue.global(qos: .default).async {
+            client.request(method: .get, path: path, parameters: nil, httpBody: nil, complete: { (result: NetworkClientResult<OrgChartModel>) in
+                complete?(result)
+            })
+        }
     }
 }
 

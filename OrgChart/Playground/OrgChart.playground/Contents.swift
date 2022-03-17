@@ -13,18 +13,20 @@ import UIKit
 class OrgChartCell: UIView {
     
     // base view
-    let baseView:UIView = UIView()
+    let baseView: UIView = UIView()
     
     // Organization Data
     var udid: String = String()
-    var name: UILabel!
-    var position: UILabel!
-    var company: UILabel!
+    
+    var nameLbl: UILabel!
+    var positionLbl: UILabel!
+    var companyLbl: UILabel!
     
     // Link line
-    var topLink: UIButton!
-    var bottomLink: UIButton!
-    var leftLink: UIButton!
+    var topLinkBtn: UIButton!
+    var bottomLinkBtn: UIButton!
+    var leftLinkBtn: UIButton!
+    
     var connectLine: CAShapeLayer!
     
     weak var parent: OrgChartCell?
@@ -34,16 +36,16 @@ class OrgChartCell: UIView {
     var childStack: UIStackView?
     
     // My index of StackView
-    var stackIndex: NSInteger!
+    var stackIndex: Int = 0
     
     // Cell indent, Default 10 pixels
-    var cellIndent:CGFloat = 10
+    var cellIndent: CGFloat = 10
     
     
     
     // MARK: - Initialize
     
-    init(frame: CGRect, userUdid: String, userName: String, userPosition: String?, userCompany: String?, userParent:OrgChartCell?) {
+    init(frame: CGRect, userUdid: String, userName: String, userPosition: String?, userCompany: String?, userParent: OrgChartCell?) {
         
         super.init(frame: frame)
         
@@ -70,49 +72,51 @@ class OrgChartCell: UIView {
         // create controls
         // name, position, company label
         udid = userUdid
-        name = UILabel(frame: CGRect(x: 5, y: 2, width: cellRect.width-10, height: cellRect.height * 10/26))
-        name.font = UIFont(name:"HelveticaNeue", size: 10.0)
-        name.text = userName
-        name.textAlignment = .center
-        baseView.addSubview(name)
+        nameLbl = UILabel(frame: CGRect(x: 5, y: 2, width: cellRect.width-10, height: cellRect.height * 10/26))
+        nameLbl.font = UIFont(name:"HelveticaNeue", size: 10.0)
+        nameLbl.text = userName
+        nameLbl.textAlignment = .center
+        baseView.addSubview(nameLbl)
         
-        position = UILabel(frame: CGRect(x: 5, y: cellRect.height*(8/26), width: cellRect.width-10, height: cellRect.height * 8/26))
-        position.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
-        position.text = userPosition ?? ""
-        position.textAlignment = .center
-        baseView.addSubview(position)
+        positionLbl = UILabel(frame: CGRect(x: 5, y: cellRect.height*(8/26), width: cellRect.width-10, height: cellRect.height * 8/26))
+        positionLbl.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
+        positionLbl.text = userPosition ?? ""
+        positionLbl.textAlignment = .center
+        baseView.addSubview(positionLbl)
         
-        company = UILabel(frame: CGRect(x: 5, y: cellRect.height*(14/26), width: cellRect.width-10, height: cellRect.height * 8/26))
-        company.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
-        company.text = userCompany ?? ""
-        company.textAlignment = .center
-        baseView.addSubview(company)
+        companyLbl = UILabel(frame: CGRect(x: 5, y: cellRect.height*(14/26), width: cellRect.width-10, height: cellRect.height * 8/26))
+        companyLbl.font = UIFont(name:"HelveticaNeue-Italic", size: 8.0)
+        companyLbl.text = userCompany ?? ""
+        companyLbl.textAlignment = .center
+        baseView.addSubview(companyLbl)
         
         // Create Link Point
         let linkBtnRect = CGRect(x: 0, y: 0, width: 20, height: 20)
         
         // top link button position
-        topLink = UIButton(frame: linkBtnRect)
-        topLink.center = CGPoint(x: cellRect.width/2, y: 0)
-        topLink.backgroundColor = .red
-        baseView.addSubview(topLink)
+        topLinkBtn = UIButton(frame: linkBtnRect)
+        topLinkBtn.center = CGPoint(x: cellRect.width/2, y: 0)
+        topLinkBtn.backgroundColor = .red
+        baseView.addSubview(topLinkBtn)
         
         // bottom link button, expand button
-        bottomLink = UIButton(frame: linkBtnRect)
-        bottomLink.center = CGPoint(x: cellRect.width/2, y: baseView.frame.height)
-        bottomLink.setImage(UIImage(named: "plus"), for: UIControlState())
-        topLink.backgroundColor = .red
-        baseView.addSubview(bottomLink)
+        bottomLinkBtn = UIButton(frame: linkBtnRect)
+        bottomLinkBtn.center = CGPoint(x: cellRect.width/2, y: baseView.frame.height)
+        bottomLinkBtn.setImage(UIImage(named: "plus"), for: .normal)
+        bottomLinkBtn.backgroundColor = .red
+        baseView.addSubview(bottomLinkBtn)
         
         // left link
-        leftLink = UIButton(frame: linkBtnRect)
-        leftLink.center = CGPoint(x: 0, y: cellRect.height/2)
-        leftLink.backgroundColor = .green
-        baseView.addSubview(leftLink)
+        leftLinkBtn = UIButton(frame: linkBtnRect)
+        leftLinkBtn.center = CGPoint(x: 0, y: cellRect.height/2)
+        leftLinkBtn.backgroundColor = .green
+        baseView.addSubview(leftLinkBtn)
         
         // Set view size
-        heightAnchor.constraint(equalToConstant: frame.height).isActive = true
-        widthAnchor.constraint(equalToConstant: frame.width).isActive = true
+        NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: frame.height),
+            widthAnchor.constraint(equalToConstant: frame.width)
+        ])
     }
     
     required init?(coder aDecoder: NSCoder) {

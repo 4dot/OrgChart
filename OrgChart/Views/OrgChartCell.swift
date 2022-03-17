@@ -38,7 +38,7 @@ protocol OrgChartCellDelegate : AnyObject {
 //
 class OrgChartCell: UIView {
     
-    var udid: String = ""
+    private var udid: String = ""
     
     // UIs
     var baseView: UIView!
@@ -157,7 +157,7 @@ class OrgChartCell: UIView {
         ])
     }
     
-    // MARK: - override
+    // MARK: - Override
     // Hit Test of outside expand button on the baseView
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         

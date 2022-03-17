@@ -30,14 +30,14 @@ import XCTest
 
 class OrgChartTests: XCTestCase {
     
-    var orgChartVC: OrgChartViewController?
+    var chartViewModel: OrgChartViewModel!
     
     
     
     override func setUp() {
         super.setUp()
         
-        orgChartVC = OrgChartViewController()
+        chartViewModel = OrgChartViewModel()
     }
     
     override func tearDown() {
@@ -48,7 +48,9 @@ class OrgChartTests: XCTestCase {
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
-            // Put the code you want to measure the time of here.
+            chartViewModel.fatchOrgChart {
+                
+            }
         }
     }
     
@@ -56,34 +58,35 @@ class OrgChartTests: XCTestCase {
     
     func testOrgChartData() {
         
-        // loading .json file
-        orgChartVC?.orgChart = OrgChartModel.loadOrgChartData("OrgChart")
-        
-        XCTAssert(orgChartVC?.orgChart != nil, "OrgChart.json file couldn't be load")
-        
-        
-        // Check Data Validation
-        
-        if let rootCellData = orgChartVC?.orgChart {
-            
-            var allCellDatas:[OrgChartModel] = [rootCellData]
-            var idx = 0
-            
-            // Collect all cell datas
-            while idx < allCellDatas.count {
-                allCellDatas += allCellDatas[idx].children
-                idx += 1
-            }
-            
-            NSLog("Total Cell's count is \(allCellDatas.count)")
-            
-            // Get a duplicate udids
-            
-            let duplicates = Array(Set(allCellDatas.filter({ (data) -> Bool in
-                allCellDatas.filter( {$0 == data }).count > 1
-            })))
-            
-            XCTAssert(duplicates.count <= 0, "Detacted duplicate datas.")
-        }
+//        // loading .json file
+//        orgChartVC?.orgChart = OrgChartModel.loadOrgChartData("OrgChart")
+//
+//        XCTAssert(orgChartVC?.orgChart != nil, "OrgChart.json file couldn't be load")
+//
+//
+//        // Check Data Validation
+//
+//        if let rootCellData = orgChartVC?.orgChart {
+//
+//            var allCellDatas:[OrgChartModel] = [rootCellData]
+//            var idx = 0
+//
+//            // Collect all cell datas
+//            while idx < allCellDatas.count {
+//                allCellDatas += allCellDatas[idx].children
+//                idx += 1
+//            }
+//
+//            NSLog("Total Cell's count is \(allCellDatas.count)")
+//
+//            // Get a duplicate udids
+//
+//            let duplicates = Array(Set(allCellDatas.filter({ (data) -> Bool in
+//                allCellDatas.filter( {$0 == data }).count > 1
+//            })))
+//
+//            XCTAssert(duplicates.count <= 0, "Detacted duplicate datas.")
+//        }
     }
 }
+

@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+// MARK: - Update OrgChart Views - Expand,
 extension OrgChartView {
     
     // Create orgchart cell view
@@ -67,22 +67,22 @@ extension OrgChartView {
             lineLinkType = .topBottom
         }
         
-        // Set link line type for connection line draw
+        // Set link line type for drawing the connection line
         parent?.childLinkType = lineLinkType
         
-        // Attach children cell into chartView
+        // Attach children cells into chartView
         insertChildren(parent, children: willAppendCell)
     }
     
     
     
     // insert children cells
-    func insertChildren(_ parent: OrgChartCell?, children: [OrgChartCell]) {
+    fileprivate func insertChildren(_ parent: OrgChartCell?, children: [OrgChartCell]) {
         guard let parent = parent else {
             return
         }
         
-        // create default stackview
+        // Create stackview for children cells
         let axis: NSLayoutConstraint.Axis = (children.count > 1 && parent.childLinkType == .topBottom) ? .horizontal : .vertical
         let stackView = OrgChartView.createStackView(axis)
         

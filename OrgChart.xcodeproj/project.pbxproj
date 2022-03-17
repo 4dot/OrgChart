@@ -55,7 +55,7 @@
 		693DB75E27E2D6F800BCEA1C /* URLQueryItemFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLQueryItemFactory.swift; sourceTree = "<group>"; };
 		693DB75F27E2D6F800BCEA1C /* JSONURLRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONURLRequestFactory.swift; sourceTree = "<group>"; };
 		693DB76027E2D6F800BCEA1C /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		693DB76827E2D82800BCEA1C /* OrgChart.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = OrgChart.playground; sourceTree = "<group>"; };
+		693DB76827E2D82800BCEA1C /* OrgChart.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = OrgChart.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		693DB76A27E2D83B00BCEA1C /* OrgChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartViewController.swift; sourceTree = "<group>"; };
 		693DB76C27E2D83B00BCEA1C /* OrgChartModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartModel.swift; sourceTree = "<group>"; };
 		693DB76E27E2D83B00BCEA1C /* OrgChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgChartCell.swift; sourceTree = "<group>"; };

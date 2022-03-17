@@ -21,9 +21,27 @@ class OrgChartViewModel : NSObject {
     // Binding
     var bindChartUpdater: (()->())?
     
-    // DP
+    
+    
+    // Use Dependency Injection to Network Client Module
     init(_ networkManager: ChartNetworkManager = ChartNetworkManager(client: ChartNetworkClient())) {
         self.networkManager = networkManager
+    }
+    
+    func fatchOrgChart(_ complete: @escaping () -> Void) {
+        self.networkManager.requestOrgChart({ result in
+            switch result {
+            case .success(let chartData):
+                self.chartData = chartData
+                
+                complete()
+                
+            case .failure(let error):
+                // complete?(.failure(error))
+                // show error message
+                print(error.debugDescription)
+            }
+        })
     }
     
     func fatchOrgChart() {

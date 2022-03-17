@@ -283,9 +283,9 @@ class OrgChartView : UIView {
 }
 
 extension OrgChartView : OrgChartCellDelegate {
-    
+    // When pressed expand button(+, -)
     func cellExpand(_ parent: OrgChartCell, udid: String, isExpand: Bool) {
-        // Already Exist childStack View
+        // Show/Hide stackview if already exist childStack View
         if let childStack = parent.childStack {
             // Expand OrgChart with Animation
             UIView.animate(withDuration: 0.25, animations: { [unowned self] in
@@ -295,13 +295,13 @@ extension OrgChartView : OrgChartCellDelegate {
                 self.setNeedsDisplay()
             }, completion: { [unowned self] finished in
                 
-                // Update scroll view size
+                // Update scroll view size after finished animation
                 self.updateScrollViewSize()
             })
         } else {
             if isExpand {
-                // Find parent
-                if let children = chartData?.getChildren(udid: udid) { //getChildren(chartData, udid: udid) {
+                // Find children with udid
+                if let children = chartData?.getChildren(udid: udid) {
                     
                     // Expand tree, Add Child cells
                     addChildren(parent, children: children, frame: parent.frame)
