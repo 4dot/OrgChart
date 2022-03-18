@@ -43,6 +43,9 @@ class OrgChartView : UIView {
     // root cell
     weak var rootCell: OrgChartCell?
     
+    // root stack view, keep this reference for reset ui
+    weak var rootStackView: UIStackView?
+    
     // Main ScrollView
     var scrollView: UIScrollView!
     
@@ -61,18 +64,21 @@ class OrgChartView : UIView {
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(scrollView)
-        
+
         // Same size with chartview
         NSLayoutConstraint.activate([
-            scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            scrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            scrollView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: 80),
             scrollView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            scrollView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            scrollView.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -80)
         ])
     }
     
     // MARK: - Public
-    func createChart(_ chartData: OrgChartModel?) {
+    func loadChart(_ chartData: OrgChartModel?) {
+        // Release prev chart data
+        releaseChart()
+        
         // Create Root Cell
         guard let chartData = chartData,
               let rootCell = createOrgChartCell(AppConstants.cellFrame, parent: nil, chartData: chartData) else {
@@ -80,24 +86,17 @@ class OrgChartView : UIView {
             return
         }
         
-        // Save Chart Data
-        self.chartData = chartData
-        
-        // Create root cell & root stack view
+        // Create root cell
         rootCell.delegate = self
         rootCell.setCellColor(AppConstants.greenColor, fontColor: UIColor.white)
-        //scrollView.addSubview(rootCell)
         
         // Create root stack view
         let rootStack = OrgChartView.createStackView(.vertical)
         rootStack.addArrangedSubview(rootCell)
         
-        // Attach stackview into the OrgChartViewController
+        // Attach stackview into the OrgChartView
         scrollView.addSubview(rootStack)
         rootCell.myStack = rootStack
-        
-        // Save reference to root cell
-        self.rootCell = rootCell
         
         // Set position of OrgChart Root StackView
         NSLayoutConstraint.activate([
@@ -110,6 +109,26 @@ class OrgChartView : UIView {
         
         // Set default button image
         rootCell.bottomLinkBtn.setImage(UIImage(named: "minus"), for: .normal)
+        
+        
+        // Save Chart Data
+        self.chartData = chartData
+        
+        // Save root stack view reference
+        self.rootStackView = rootStack
+        
+        // Save root cell reference
+        self.rootCell = rootCell
+    }
+    
+    func releaseChart() {
+        // Release all cells
+        orgChartCells.removeAll()
+        
+        // Remove root stack view from scroll  view
+        rootStackView?.removeFromSuperview()
+        
+        chartData = nil
     }
     
     // Update scroll view size when zoom in/out

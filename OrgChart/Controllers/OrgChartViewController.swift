@@ -84,6 +84,12 @@ class OrgChartViewController: UIViewController {
     
     func updateChartView() {
         // Reset & Create
-        orgChartView.createChart(chartViewModel.chartData)
+        orgChartView.loadChart(chartViewModel.chartData)
+    }
+    
+    // MARK: - IBActions
+    @IBAction func reloadBtnTapped(_ btn: UIButton) {
+        // request again
+        chartViewModel.fatchOrgChart()
     }
 }
